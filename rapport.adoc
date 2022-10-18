@@ -1,0 +1,27 @@
+=  Polycode
+:reproducible:
+:toc:
+
+
+== Functionnal quarters
+
+=== User stories
+
+
+== Identification and OIDC
+
+== Microservice communication
+
+== Traceability and logging
+
+== Search engine
+
+== Runner architecture
+
+== Data architecture
+
+== Mobile app
+
+== Microservice security
+
+== UI microservice
