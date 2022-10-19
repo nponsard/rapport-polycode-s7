@@ -1,4 +1,6 @@
 =  Polycode
+Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
+19-10-2022
 :reproducible:
 :toc:
 
