@@ -18,6 +18,34 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 
 == Search engine
 
+=== Concept
+
+See `./sketches/Q5-search/ui.drawio`.
+
+This concept needs a new collection storing the search history of all users, containing the search query and the number of times it has been searched. The index will be on the query field (to search text).
+
+When a user starts to type in the search field, the server will respond with suggestion of queries, matched by the beginning of the text, ordered by the number of times researched.
+
+Selecting a suggestion fills the search field and validates the search.
+
+Once the search is validated, use a fuzzy finding algorithm to search through the content 
+TODO : strategy, explain fuzzi finding, find how to in mongo
+
+All types of content (module, content, assignement) will be in a list of results, with the same presentation and the type marked.
+
+Ordering with points :
+* 1 point for each matching word in the description
+* 2 point for each matching word in the title
+* 3 point for each matching word in the tags
+
+Results ordered by points, then by date of creation (default, can be changed to date then points).
+
+
+
+
+
+
+
 == Runner architecture
 
 == Data architecture
