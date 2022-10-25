@@ -41,6 +41,38 @@ Ordering with points :
 Results ordered by points, then by date of creation (default, can be changed to date then points).
 
 
+=== Implementation
+
+[source,JavaScript]
+----
+db.blog.createIndex(
+   {
+     description: "text",
+     tags: "text",
+     title: "text"
+   },
+   {
+     weights: {
+      description: 10,
+      title: 20,
+      tags: 30
+     },
+     name: "TextIndex"
+   }
+ )
+----
+
+
+search  :
+
+[source,JavaScript]
+----
+db.stores.find(
+   { $text: { $search: "rust in 30 days" } },
+   { score: { $meta: "textScore" } }
+).sort( { score: { $meta: "textScore" } } )
+----
+
 
 
 
