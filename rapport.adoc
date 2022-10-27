@@ -5,18 +5,47 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 :toc:
 
 
-== Functionnal quarters
+== 1 Functionnal quarter
 
 === User stories
 
 
-== Identification and OIDC
+== 2 Identification and OIDC
 
-== Microservice communication
+== 3 Microservice communication
 
-== Traceability and logging
+=== Environment variables
 
-== Search engine
+Each service requires environment variables indicating where to find the other services. 
+
+This can become tedious to setup, these variables could have a default value corresponding to the usual service name in kubernetes.
+
+=== service discovery
+
+When starting the services register to the a server. This server will be able to provide the address of the other services.
+
+Two ways to get the address of the other services:
+- every time you need to do a request
+- fetch regularly the list of services and store it to use for requests.
+
+
+SPOF : if the service discovery is down, all services can’t reach eachother, you can still keep the previous adress in cache and update when back up.
+
+
+== 4 Traceability and logging
+
+=== Fetch the logs
+
+- log everything to stdout or stderr
+- use (or create) a log aggregator that reads the output from kube or the platform.
+
+
+=== central logging server 
+Let the services upload to a central server.
+
+THIS IS A SPOF, but the project can run without it, you just won’t be able to troobleshoot errors when this service is down.
+
+== 5 Search engine
 
 === Concept
 
@@ -78,12 +107,14 @@ db.stores.find(
 
 
 
-== Runner architecture
+== 6 Runner architecture
 
-== Data architecture
+== 7 Data architecture
 
-== Mobile app
+== 8 Mobile app
 
-== Microservice security
+== 9 Microservice security
 
-== UI microservice
+- HTTPS + certificate exchange (kube secrets).
+
+== 10 UI microservice
