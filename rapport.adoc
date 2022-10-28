@@ -109,7 +109,38 @@ db.stores.find(
 
 == 6 Runner architecture
 
+=== Runner definition
+
+A runner is a service used to run code sent by the user in a sandboxed environment. It feeds data to the stdin of the programs and returns the stdout and stderr.
+
+Validity of the solution can be checked by sending specific inputs to stdin and checking if the output corresponds to the expected output.
+
+=== Execution isolation 
+
+To negate the effect of malicious code, the user submitted code should not have arbitrary file system and memory access, internet access, host system access. The running program should also be limited in CPU and memory usage to prevent denial of service attacks.
+
+=== Virtal machine architecture 
+
+TODO
+
+LXC ?
+
+=== Runner registration 
+
+- Generate a token from the service managing the runners
+- Launch the runner program on a machine providing the token and the address of the runner manager
+- Periodically the runner will send a request to the runner manager to retrieve new jobs to run
+- The runner manager send some jobs to the runner, the number of jobs depending on the capacity of the runner (CPU, RAM) and the number of runners available to the manager
+- The runner runs the jobs 
+- When a job finishes the runner does a request to the manager to send the result of the job
+
+
 == 7 Data architecture
+
+=== current data 
+
+- postgresql 
+- mongodb
 
 == 8 Mobile app
 
