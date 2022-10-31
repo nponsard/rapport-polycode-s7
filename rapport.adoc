@@ -144,8 +144,26 @@ LXC ?
 
 == 8 Mobile app
 
+=== Functionnalities
+
+- Read courses
+- Download courses/videos for offline use
+- Answer to MCQ questions
+- browse courses/exercises
+- manage accounte
+- notification on new content in a module ?
+
+
+=== Authentication 
+
+Oauth2 ? open web page with token in url
+
+
 == 9 Microservice security
 
 - HTTPS + certificate exchange (kube secrets).
 
 == 10 UI microservice
+
+Iframe ?
+-> explorer Remix et Next.js 13
