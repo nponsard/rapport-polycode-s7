@@ -12,6 +12,11 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 
 == 2 Identification and OIDC
 
+- Redirect from frontend
+- callback to frontend
+- frontend sends token to backend
+- backend checks token with OIDC provider `https://${keycloakHost}:${keycloakPort}/auth/realms/${realmName}/protocol/openid-connect/userinfo`
+
 == 3 Microservice communication
 
 === Environment variables
