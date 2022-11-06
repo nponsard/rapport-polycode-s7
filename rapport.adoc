@@ -17,6 +17,16 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 - frontend sends token to backend
 - backend checks token with OIDC provider `https://${keycloakHost}:${keycloakPort}/auth/realms/${realmName}/protocol/openid-connect/userinfo`
 
+
+
+- enable keycloak registration
+- find user by email
+- create user if it doesn’t exsist
+
+If email is not found, check email verification, if verified create a new user, ask for confirmation of the username, accept the TOS.
+
+
+
 == 3 Microservice communication
 
 === Environment variables
