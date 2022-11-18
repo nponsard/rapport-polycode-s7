@@ -5,9 +5,144 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 :toc:
 
 
-== 1 Functionnal quarter
+== 1 Functional quarter
+=== Vocabulary 
+
+* Admin : A privileged user that has CRUD access to all the data.
+* User : Person that has a PolyCode account.
+* Candidate : Person that participate to a test.
+* Guest : Person that doesn't have a PolyCode account.
+* Captain : Person that owns and manages a team.
+* Assessment Creator : Person that can create assessments and manage them.
+* Practice Creator : Person that can create contents, modules and manage them.
+* Test : Ordered list of questions meant to evaluate a candidate.
+* Campaign : Association of a group of candidate and a test.
+* Question : Content that is used in a test.
+* Module : A group of contents and other modules.
+* Content : Coherent group of components that are organized in a tree structure.
+* Component : Display element or interactive element in a content (example : code challenge, markdown information text).
+* Hint : A piece of information that the user can buy to help him solve a problem (in a code challenge).
+* PolyPoints : Virtual currency used to buy hints, earned by completing all submittables of contents and modules.
+* Runner : Sandboxed environment that runs the code of the candidate.
+* Submittable : Component that exposes a problem to solve. The user can submit a submission to solve the problem.
+* Submission : User’s answer to a submittable, validated through a validator.
+* Team : Group of users, teams are ranked in a leaderboard based of the total score of their members.
+* Validator : Instructions to test the validity of a submission (example : for a specific input expect a specific output).
+* Tag : Keyword that can be associated to a content or a module.
+
 
 === User stories
+
+[cols="1,1,1"]
+|===
+|As a |I want to |So that
+
+|Guest
+|Create an account
+|Use the features of the app
+
+User,Update my emails,"Récupérer son compte en cas d’oubli de mot de passe, en cas de changement d’email / problèmes d’email."
+User,Recevoir un mail de bienvenue lors de mon inscription,Etre averti que mon inscription à bien été faite
+User,Afficher les informations à propos de mon compte,Je puisse revoir mes informations personelles
+User,Afficher les informations à propos du compte d’un autre utilisateur,Je puisse me renseigner sur un utilisateur
+User,"Change my username, my programming language and my bio",Mes informations personnelle soit toujours à jour
+User,Delete my account,Ne plus avoir de trace sur l’application
+User,Connect to my account by my username and my password,je puisse accèder à toutes les fonctionnalités de l’application
+User,Logout of my account,Éviter les accès non autorisés depuis le navigateur utilsé.
+User,Reset my password by an email,Je puisse récupérer mon compte en cas de perte de mon mot de passe
+User,Create a new team,Réunir un groupe d’utilisateurs (motivation) et parciper au leaderboard des équipes (somme des points de chaque utilisateur).
+Captain,Invite other users in my team,mon équipe s’agrandisse
+Captain,Delete a member from my team,Enlever un membre problématique / non actif / qui n’est plus en adéquation avec le groupe.
+Captain,Give the captain role to another member of my team,je sois disposé de ces fonctions
+Captain,Delete my team,"ne plus avoir de traces de cette équipe, pour quelconque raison."
+Captain,Change the name and the description of my team,les informations de l’équipe reste à jour
+User,accepter ou décliner une invitation à une équipe,ajoute les PolyPoints (précédents) et gagnés de l’utilisateur à l’équipe
+User,pouvoir quitter une équipe,je ne sois plus associé à un groupe d’utilisateur
+User,voir les points de mon équipe,Constater l’avancement /motivation
+User,voir le classement des équipes,Je vois le placement de mon équipe vis-à-vis des autres
+User,voir le classement interne des membres de l’équipe,"Voir qui a participé le plus dans l’équipe, concurrence interne ⇒ motivation"
+User,voir la liste des exercices disponibles,je puisse choisir un exercice à faire
+User,voir la liste des modules disponibles,je puisse choisir un module à faire
+User,voir les sous-modules et les exercices d’un module,Trouver les étapes à faire pour compléter le module ⇒ compléter la notion
+User,voir la liste des évaluations disponibles,je puisse choisir une évaluation à passer
+User,voir les derniers exercices / modules mis en ligne (actualités),Voir le nouveau contenu
+User,voir les informations d’un exercice,s’informer sur le sujet d’un exercice
+User,voir les informations d’un module,"S’informer sur le sujet du module, l’objectif"
+User,voir les informations d’une évaluation,"S’informer sur le sujet de l’évaluation, l’objectif"
+User,voir l’énoncé d’un exercice,"Apprendre une nouvelle notion, connaître le problème à résoudre, question à répondre pour valider la notion "
+User,proposer une solution à l’exercice,gagner des PolyPoints et avancer dans le module associé
+User,"dans le cas d’un code à écrire, exécuter un validateur intermédiaire ",vérifier si mon code est correct pour le validateur en question
+User,revoir la dernière solution qui à passée le plus de validateurs,"Reprendre le code depuis un appareil différent, à un autre moment, pour l’améliorer"
+User,Écrire (et modifier) sa solution de code dans un éditeur intégré à la page de l’exercice (cas d’exercice de code),proposer une solution à l’exercice
+User,ajouter des fichiers dans l’éditeur (exercice),Organiser la solution en plusieurs fichiers
+User,supprimer des fichiers dans l’éditeur,Organiser la solution en plusieurs fichiers
+User,acheter des données de validateur (entrée + sortie) avec des PolyPoints ⇒ hint,comprendre mieux comment résoudre l’exercice
+User,suivre ma progression dans chacun des modules,"Voir ce qui est complété / à faire "
+User,voir le classement global des utilisateurs (par polypoints),Motivation à atteindre le sommet (principe de concurrence)
+User,passer une évaluation,obtenir une certification
+User,lire le contenu d’un cours,monter en compétence sur un sujet
+Content Creator,"créer un exercice, et y ajouter du markdown, un code editor, un QCM organisé dans des conteneurs","Proposer l’apprentissage d’une nouvelle notion, faire vérifier la connaissance de cette notion par une question/ un code à écrire"
+Content Creator,créer un module,Organiser les exercices par notion majeure / thématique
+Assessment Creator,créer une évaluation,vérifier les compétence d’un utilisateur sur un contenu
+Content Creator,ajouter ses exercices à un module qu’il a créé,remplir le contenu d’un module en ensemble d’élément cohérent
+Content Creator,"ajouter des modules dans un module, et ce avec des modules qu’il a créé (sous-module)",remplir le contenu d’un module en ensemble d’élément cohérent
+Content Creator,"modifier le nom, la description, le nombre de PolyPoints de récompense, les tags, le contenu (exercices et sous-module) de ses modules",Garder à jour un module
+Content Creator,"modifier le titre, la description, le contenu, récompense en polypoints,  les validateurs, les tags d’un exercice",Garder à jour un exercice
+Content Creator,"modifier le titre, la description, le contenu d’une évaluation",Garder à jour une évaluation
+Content Creator,supprimer un exercice qu’il a créé,Réparer une erreur / ne plus vouloir la présence de ce contenu
+Content Creator,supprimer un module qu’il a créé,Réparer une erreur / ne plus vouloir la présence de ce contenu
+Content Creator,supprimer une évaluation qu’il a créé,Réparer une erreur / ne plus vouloir la présence de ce contenu
+Content Creator,voir le résultat des utilisateurs sur une évaluation qu’il a créé,Pour que le recruteur / professeur voie le résultat des élèves pour attribuer une note / recruter
+Admin,Promouvoir un utilisateur en rédacteur,qu’un utilisateur ai les droits d’un “redacteur”
+Admin,Promouvoir un utilisateur en admin,qu’un utilisateur ai les droits d’un “admin”
+Admin,Créer un utilisateur,Utiliser l’application avec un autre compte
+Admin,Récupérer les données d’un utilisateur,Voir les informations confidentielles d’un compte utilisateur
+Admin,Mettre à jour les données d’un utilisateur,Mettre à jour les informations personnelles afin qu’elles soient cohérentes
+Admin,Supprimer un utilisateur,Ne plus donner accès à la plateforme pour un compte utilisateur
+Admin,Créer un exercice,"Proposer l’apprentissage d’une nouvelle notion, faire vérifier la connaissance de cette notion par une question/ un code à écrire"
+Admin,"modifier le titre, la description, le contenu, récompense en polypoints,  les validateurs, les tags d’un exercice",Garder à jour un exercice
+Admin,Créer un module,Créer un module afin de regrouper des contenus
+Admin,Récupérer les données d’un module,Voir les informations et les contenus associés à ce module
+Admin,Mettre à jour les données d’un module,Garde le module à jour
+Admin,Supprimer un module,Effacer les traces du module sur la plateforme
+Admin,Créer une évaluation,vérifier les compétence d’un utilisateur sur un contenu
+Admin,Récupérer les données d’une évaluation,Voir les différentes données en lien avec une évaluation
+Admin,Mettre à jour les données d’une évaluation,Ajouter des utilisateurs ou modifier des données relatives à une évaluation
+Admin,Supprimer une évaluation,Enlever une évaluation de la plateforme
+Admin,Créer une team,Rassembler des utilisateurs dans une équipe
+Admin,Ajouter un membre dans mon équipe,Proposer à un utilisateur de rejoindre mon équipe
+Admin,Supprimer un membre d’une team,Enlever un utilisateur de mon équipe pour une quelconque raison
+Admin,Supprimer une team,Supprimer une team qui ne valide pas les conditions d’utilisation
+Admin,Modifier la description d’une équipe,Avoir une description à jour de l’équipe
+Assessment Creator,créer une campagne de test,Evaluer le niveau des utilisateurs
+Assessment Creator,ajouter des utilisateurs à ma campagne via une interface web,Faire participer les candidats
+Assessment Creator,supprimer des utilisateurs à ma campagne via une interface web,Enlever un candidat des participants
+Assessment Creator,ajouter des utilisateurs à ma campagne via des appels API,Faire participer les candidats
+Assessment Creator,supprimer des utilisateurs à ma campagne via des appels API,Enlever un candidat des participants
+Assessment Creator,ajouter des utilisateurs à ma campagne via l’importation de fichiers csv,Faire participer les candidats
+Assessment Creator,voir les résultats et statistiques sur la campagne que j’ai créé,Me rendre compte du niveau des candidats testés
+Assessment Creator,ajouter des tags à mes candidats,Grouper les candidats
+Assessment Creator,définir une date limite pour ma campagne,Clôturer ma campagne à une date fixe
+Candidate,revenir sur un test et reprendre là où j’en était,Finir mon test si jamais je quitte l’application
+Assessment Creator,définir un temps limite pour chaque question de ma campagne,Les candidats répondent dans un temps limité
+Assessment Creator,définir un nb de points pour chaque question,Avoir un score par candidats et voir leur différence de score à la fin de la campagne
+Candidate,recevoir un mail me permettant de participer à une campagne de tests,Avoir un lien pour participer à une campagne
+Candidate,Accepter de participer à une campagne,Tester ses compétences à travers une campagne
+Candidate,Refuser de participer à une campagne,Avoir la possibilité de refuser une campagne et que le créateur en soit informé
+Assessment Creator,"Éditer ma campagne, les tests liés",Modifier une campagne précédemment créée
+Assessment Creator,Définir une date de début de ma campagne,"Définir une date pour les candidats, ainsi qu’un temps imparti pour finaliser la campagne"
+Assessment creator,Envoyer des liens de ma campagne manuellement à mes candidats,S’assurer que les candidats reçoivent bien le lien pour participer à une campagne
+Candidate,Recevoir un mail de confirmation contenant des stats quand j’ai soumis mon test,Notifier l’utilisateur que sa participation et ses réponses ont bien été enregistrées pour une campagne
+Assessment Creator,Voir le nombre de points totaux par candidats,Comparer les points des candidats ayant participé à la campagne
+Assessment Creator,Visualiser un graphique/un excel par tags de content et par candidats,Voir graphiquement les différents résultats
+Assessment Creator,Exporter les résultats synthétisés dans un pdf,Sauvegarder les résultats des candidats et avoir une vue synthétique
+Assessment Creator,Exporter les résultats détaillés dans un pdf,Sauvegarder les résultats des candidats et y avoir accès sans passer par l’application
+Assessment Creator,Avoir une vue comparative des candidats sous la forme d’un tableau excel,Comparer les score des candidats à travers un tableau
+Assessment Creator,"Trier la liste des candidats par tags, résultats",Comparer les résultats des candidats en fonction de données précises
+Assessment Creator,"télécharger les scores des candidats ",afin de garder les stats en local
+
+|===
+
 
 
 == 2 Identification and OIDC
