@@ -41,39 +41,138 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 |Create an account
 |Use the features of the app
 
-User,Update my emails,"Récupérer son compte en cas d’oubli de mot de passe, en cas de changement d’email / problèmes d’email."
-User,Recevoir un mail de bienvenue lors de mon inscription,Etre averti que mon inscription à bien été faite
-User,Afficher les informations à propos de mon compte,Je puisse revoir mes informations personelles
-User,Afficher les informations à propos du compte d’un autre utilisateur,Je puisse me renseigner sur un utilisateur
-User,"Change my username, my programming language and my bio",Mes informations personnelle soit toujours à jour
-User,Delete my account,Ne plus avoir de trace sur l’application
-User,Connect to my account by my username and my password,je puisse accèder à toutes les fonctionnalités de l’application
-User,Logout of my account,Éviter les accès non autorisés depuis le navigateur utilsé.
-User,Reset my password by an email,Je puisse récupérer mon compte en cas de perte de mon mot de passe
-User,Create a new team,Réunir un groupe d’utilisateurs (motivation) et parciper au leaderboard des équipes (somme des points de chaque utilisateur).
-Captain,Invite other users in my team,mon équipe s’agrandisse
-Captain,Delete a member from my team,Enlever un membre problématique / non actif / qui n’est plus en adéquation avec le groupe.
-Captain,Give the captain role to another member of my team,je sois disposé de ces fonctions
-Captain,Delete my team,"ne plus avoir de traces de cette équipe, pour quelconque raison."
-Captain,Change the name and the description of my team,les informations de l’équipe reste à jour
-User,accepter ou décliner une invitation à une équipe,ajoute les PolyPoints (précédents) et gagnés de l’utilisateur à l’équipe
-User,pouvoir quitter une équipe,je ne sois plus associé à un groupe d’utilisateur
-User,voir les points de mon équipe,Constater l’avancement /motivation
-User,voir le classement des équipes,Je vois le placement de mon équipe vis-à-vis des autres
-User,voir le classement interne des membres de l’équipe,"Voir qui a participé le plus dans l’équipe, concurrence interne ⇒ motivation"
-User,voir la liste des exercices disponibles,je puisse choisir un exercice à faire
-User,voir la liste des modules disponibles,je puisse choisir un module à faire
-User,voir les sous-modules et les exercices d’un module,Trouver les étapes à faire pour compléter le module ⇒ compléter la notion
-User,voir la liste des évaluations disponibles,je puisse choisir une évaluation à passer
-User,voir les derniers exercices / modules mis en ligne (actualités),Voir le nouveau contenu
-User,voir les informations d’un exercice,s’informer sur le sujet d’un exercice
-User,voir les informations d’un module,"S’informer sur le sujet du module, l’objectif"
-User,voir les informations d’une évaluation,"S’informer sur le sujet de l’évaluation, l’objectif"
-User,voir l’énoncé d’un exercice,"Apprendre une nouvelle notion, connaître le problème à résoudre, question à répondre pour valider la notion "
-User,proposer une solution à l’exercice,gagner des PolyPoints et avancer dans le module associé
-User,"dans le cas d’un code à écrire, exécuter un validateur intermédiaire ",vérifier si mon code est correct pour le validateur en question
-User,revoir la dernière solution qui à passée le plus de validateurs,"Reprendre le code depuis un appareil différent, à un autre moment, pour l’améliorer"
-User,Écrire (et modifier) sa solution de code dans un éditeur intégré à la page de l’exercice (cas d’exercice de code),proposer une solution à l’exercice
+|User
+|Update my emails
+|Update my ways to recover my account, get important updates and notifications
+
+|User
+|Receive a welcome email after creating an account
+|Know that my account has been created
+
+|User
+|Get information about my account
+|Review my account information
+
+|User
+|Get info about another user 
+|Know the user
+
+|User
+|Update my username, programming languages and short description
+|Keep my information up to date
+
+|User
+|Delete my account
+|Remove my data from the app
+
+|User
+|Log in to my account via email and password
+|Access my account
+
+|User
+|Logout of my account
+|Prevent unauthorized access to my account
+
+|User 
+|Reset my password
+|Get access to my account if I forgot my password
+
+|User
+|Create a team 
+|Participate to the team leaderboard an gather users
+
+|Captain
+|Invite users to my team
+|Add users to my team
+
+|Captain
+|Kick users from my team
+|Remove users from my team (inactive, problematic, etc.)
+
+|Captain
+|Give the captain role to another user
+|Transfer the captain role to another user
+
+|Captain
+|Delete my team
+|Remove my team from the app
+
+|Captain
+|Update info about my team
+|Keep my team info up to date
+
+|User
+|Accept an invitation to a team
+|Join a team
+
+|User
+|Leave a team
+|cease to be associated to a team
+
+|User
+|Get info about a team, members, points, name, description
+|Know the team
+
+|User
+|Get the leaderboard of teams
+|Know the ranking of teams
+
+|User
+|Get the leaderboard of users in a team
+|Know the ranking of users in a team
+
+|User 
+|Get the list of available content
+|Know the content available
+
+|User
+|Get the list of available modules
+|Know the modules available
+
+|User
+|Get the list of contents and submodules of a module
+|Know how to complete a module
+
+|User
+|Get the latest modules and contents
+|Know what have been added recently
+
+|User
+|Get the informations about a content
+|Know the content
+
+|User
+|Get the informations about a module
+|Know the module, the objectives 
+
+|User
+|Get the informations about a test
+|Know the test, its objectives
+
+|User
+|Get the components of a content
+|Get the informations the content aims to convey, it’s submittables
+
+|User
+|Submit a solution to a submittable component
+|Validate my solution
+
+|User
+|Execute a validator on my code
+|Validate my solution on a public validator
+
+|User
+|Get the last solution I submitted to a submittable component
+|Get back to my solution and improve it
+
+|User
+|Write a solution to a submittable component in a code editor (for a code challenge)
+|Write my solution and test it
+
+|User
+|Add new sources files to a code editor (for a code challenge)
+|Split the code answer in multiple files
+
 User,ajouter des fichiers dans l’éditeur (exercice),Organiser la solution en plusieurs fichiers
 User,supprimer des fichiers dans l’éditeur,Organiser la solution en plusieurs fichiers
 User,acheter des données de validateur (entrée + sortie) avec des PolyPoints ⇒ hint,comprendre mieux comment résoudre l’exercice
