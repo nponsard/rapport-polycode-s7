@@ -173,72 +173,209 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 |Add new sources files to a code editor (for a code challenge)
 |Split the code answer in multiple files
 
-User,ajouter des fichiers dans l’éditeur (exercice),Organiser la solution en plusieurs fichiers
-User,supprimer des fichiers dans l’éditeur,Organiser la solution en plusieurs fichiers
-User,acheter des données de validateur (entrée + sortie) avec des PolyPoints ⇒ hint,comprendre mieux comment résoudre l’exercice
-User,suivre ma progression dans chacun des modules,"Voir ce qui est complété / à faire "
-User,voir le classement global des utilisateurs (par polypoints),Motivation à atteindre le sommet (principe de concurrence)
-User,passer une évaluation,obtenir une certification
-User,lire le contenu d’un cours,monter en compétence sur un sujet
-Content Creator,"créer un exercice, et y ajouter du markdown, un code editor, un QCM organisé dans des conteneurs","Proposer l’apprentissage d’une nouvelle notion, faire vérifier la connaissance de cette notion par une question/ un code à écrire"
-Content Creator,créer un module,Organiser les exercices par notion majeure / thématique
-Assessment Creator,créer une évaluation,vérifier les compétence d’un utilisateur sur un contenu
-Content Creator,ajouter ses exercices à un module qu’il a créé,remplir le contenu d’un module en ensemble d’élément cohérent
-Content Creator,"ajouter des modules dans un module, et ce avec des modules qu’il a créé (sous-module)",remplir le contenu d’un module en ensemble d’élément cohérent
-Content Creator,"modifier le nom, la description, le nombre de PolyPoints de récompense, les tags, le contenu (exercices et sous-module) de ses modules",Garder à jour un module
-Content Creator,"modifier le titre, la description, le contenu, récompense en polypoints,  les validateurs, les tags d’un exercice",Garder à jour un exercice
-Content Creator,"modifier le titre, la description, le contenu d’une évaluation",Garder à jour une évaluation
-Content Creator,supprimer un exercice qu’il a créé,Réparer une erreur / ne plus vouloir la présence de ce contenu
-Content Creator,supprimer un module qu’il a créé,Réparer une erreur / ne plus vouloir la présence de ce contenu
-Content Creator,supprimer une évaluation qu’il a créé,Réparer une erreur / ne plus vouloir la présence de ce contenu
-Content Creator,voir le résultat des utilisateurs sur une évaluation qu’il a créé,Pour que le recruteur / professeur voie le résultat des élèves pour attribuer une note / recruter
-Admin,Promouvoir un utilisateur en rédacteur,qu’un utilisateur ai les droits d’un “redacteur”
-Admin,Promouvoir un utilisateur en admin,qu’un utilisateur ai les droits d’un “admin”
-Admin,Créer un utilisateur,Utiliser l’application avec un autre compte
-Admin,Récupérer les données d’un utilisateur,Voir les informations confidentielles d’un compte utilisateur
-Admin,Mettre à jour les données d’un utilisateur,Mettre à jour les informations personnelles afin qu’elles soient cohérentes
-Admin,Supprimer un utilisateur,Ne plus donner accès à la plateforme pour un compte utilisateur
-Admin,Créer un exercice,"Proposer l’apprentissage d’une nouvelle notion, faire vérifier la connaissance de cette notion par une question/ un code à écrire"
-Admin,"modifier le titre, la description, le contenu, récompense en polypoints,  les validateurs, les tags d’un exercice",Garder à jour un exercice
-Admin,Créer un module,Créer un module afin de regrouper des contenus
-Admin,Récupérer les données d’un module,Voir les informations et les contenus associés à ce module
-Admin,Mettre à jour les données d’un module,Garde le module à jour
-Admin,Supprimer un module,Effacer les traces du module sur la plateforme
-Admin,Créer une évaluation,vérifier les compétence d’un utilisateur sur un contenu
-Admin,Récupérer les données d’une évaluation,Voir les différentes données en lien avec une évaluation
-Admin,Mettre à jour les données d’une évaluation,Ajouter des utilisateurs ou modifier des données relatives à une évaluation
-Admin,Supprimer une évaluation,Enlever une évaluation de la plateforme
-Admin,Créer une team,Rassembler des utilisateurs dans une équipe
-Admin,Ajouter un membre dans mon équipe,Proposer à un utilisateur de rejoindre mon équipe
-Admin,Supprimer un membre d’une team,Enlever un utilisateur de mon équipe pour une quelconque raison
-Admin,Supprimer une team,Supprimer une team qui ne valide pas les conditions d’utilisation
-Admin,Modifier la description d’une équipe,Avoir une description à jour de l’équipe
-Assessment Creator,créer une campagne de test,Evaluer le niveau des utilisateurs
-Assessment Creator,ajouter des utilisateurs à ma campagne via une interface web,Faire participer les candidats
-Assessment Creator,supprimer des utilisateurs à ma campagne via une interface web,Enlever un candidat des participants
-Assessment Creator,ajouter des utilisateurs à ma campagne via des appels API,Faire participer les candidats
-Assessment Creator,supprimer des utilisateurs à ma campagne via des appels API,Enlever un candidat des participants
-Assessment Creator,ajouter des utilisateurs à ma campagne via l’importation de fichiers csv,Faire participer les candidats
-Assessment Creator,voir les résultats et statistiques sur la campagne que j’ai créé,Me rendre compte du niveau des candidats testés
-Assessment Creator,ajouter des tags à mes candidats,Grouper les candidats
-Assessment Creator,définir une date limite pour ma campagne,Clôturer ma campagne à une date fixe
-Candidate,revenir sur un test et reprendre là où j’en était,Finir mon test si jamais je quitte l’application
-Assessment Creator,définir un temps limite pour chaque question de ma campagne,Les candidats répondent dans un temps limité
-Assessment Creator,définir un nb de points pour chaque question,Avoir un score par candidats et voir leur différence de score à la fin de la campagne
-Candidate,recevoir un mail me permettant de participer à une campagne de tests,Avoir un lien pour participer à une campagne
-Candidate,Accepter de participer à une campagne,Tester ses compétences à travers une campagne
-Candidate,Refuser de participer à une campagne,Avoir la possibilité de refuser une campagne et que le créateur en soit informé
-Assessment Creator,"Éditer ma campagne, les tests liés",Modifier une campagne précédemment créée
-Assessment Creator,Définir une date de début de ma campagne,"Définir une date pour les candidats, ainsi qu’un temps imparti pour finaliser la campagne"
-Assessment creator,Envoyer des liens de ma campagne manuellement à mes candidats,S’assurer que les candidats reçoivent bien le lien pour participer à une campagne
-Candidate,Recevoir un mail de confirmation contenant des stats quand j’ai soumis mon test,Notifier l’utilisateur que sa participation et ses réponses ont bien été enregistrées pour une campagne
-Assessment Creator,Voir le nombre de points totaux par candidats,Comparer les points des candidats ayant participé à la campagne
-Assessment Creator,Visualiser un graphique/un excel par tags de content et par candidats,Voir graphiquement les différents résultats
-Assessment Creator,Exporter les résultats synthétisés dans un pdf,Sauvegarder les résultats des candidats et avoir une vue synthétique
-Assessment Creator,Exporter les résultats détaillés dans un pdf,Sauvegarder les résultats des candidats et y avoir accès sans passer par l’application
-Assessment Creator,Avoir une vue comparative des candidats sous la forme d’un tableau excel,Comparer les score des candidats à travers un tableau
-Assessment Creator,"Trier la liste des candidats par tags, résultats",Comparer les résultats des candidats en fonction de données précises
-Assessment Creator,"télécharger les scores des candidats ",afin de garder les stats en local
+|User
+|Delete a source file from a code editor (for a code challenge)
+|Organize the code answer in multiple files
+
+|User
+|Buy a hint for a submittable component
+|Get a piece of information to help me solve the problem
+
+|User
+|Get my progress on a module
+|Know how much I have completed a module
+
+|User
+|Get the global user leaderboard
+|Gammification 
+
+|User
+|take a test
+|Get a grade or a certificate
+
+|Content Creator
+|Create a content, (markdown, code challenge components)
+|Teach a notion
+
+|Content Creator
+|Create a module
+|Organize the contents 
+
+|Assessment Creator 
+|Create a test
+|Evaluate a candidate
+
+|Content Creator
+|Add contents to a module
+|Organize the contents
+
+|Content Creator
+|Add submodules to a module
+|Organize the modules hierarchy
+
+|Content Creator
+|Edit the name, description, tags, rewards, inner components of a content I created
+|Keep my content up to date
+
+|Content Creator
+|Edit the name, description, tags, rewards, inner contents and submodules of a module I created
+|Keep my module up to date
+
+|Assessment Creator
+|Edit the name, description, tags, rewards, inner contents of a test I created
+|Keep my test up to date
+
+|Content Creator
+|Delete a content I created
+|Remove my content from the app
+
+|Content Creator
+|Delete a module I created
+|Remove my module from the app
+
+|Assessment Creator
+|Delete a test I created
+|Remove my test from the app
+
+|Admin
+|Promote a user to Content Creator
+|Give the right to create content to a user
+
+|Admin
+|Promote a user to Assessment Creator
+|Give the right to create test to a user
+
+|Admin
+|Promote a user to Admin
+|Give the right to manage the app to a user
+
+|Admin
+|Create a new user
+|Add a user to the app
+
+|Admin
+|Get all the information about a user
+|Facilitate moderation
+
+|Admin
+|Update the information of a user
+|Facilitate moderation
+
+|Admin
+|Delete a user
+|Facilitate moderation
+
+|Admin
+|Get, create, edit, delete a content
+|Content moderation
+
+|Admin
+|Get, create, edit, delete a module
+|Content moderation
+
+|Admin
+|Get, create, edit, delete a test
+|Content moderation
+
+|Admin
+|Get, create, edit, delete a team
+
+|Assessment Creator
+|Create a test campaign
+|Evaluate candidates
+
+|Assessment Creator
+|Add candidates to a test campaign via the web interface
+|Evaluate candidates
+
+|Assessment Creator
+|Get the list of candidates in a test campaign
+|Evaluate candidates
+
+|Assessment Creator
+|Remove candidates from a test campaign
+|Evaluate candidates
+
+|Assessment Creator
+|Add candidates to a test campaign via a CSV file
+|Evaluate candidates
+
+|Assessment Creator
+|Add candidates to a test campaign via an api access
+|Automate candidate addition
+
+|Assessment Creator
+|Remove candidates from a test campaign via an api access
+|Automate candidates deletion
+
+|Assessment Creator
+|Review the submissions and scores of candidates on a test
+|Evaluate the candidates
+
+|Assessment Creator
+|Add tags to a candidate
+|Organize the candidates
+
+|Assessment Creator
+|Set a completion deadline for a test campaign
+|Limit the time a candidate has to complete the test
+
+|Assessment Creator
+|Define a time limit for each questions in a test
+|Limit the time a candidate has to answer a question
+
+|Assessment Creator
+|Define the number of points granted for each question in a test
+|Giving weight to each question
+
+|Candidate 
+|Get back to a test I started and continue it if the time limit is not reached
+|Complete the test
+
+|Candidate
+|Receive a mail with links to accept or refuse a test 
+|Accept or refuse a test
+
+|Candidate
+|Participate to a test using the link provided in the mail
+|Complete the test
+
+|Assessment Creator
+|Edit the test, the questions, the time limit and the points granted for each question
+|Keep the test up to date
+
+|Assessment Creator
+|Set a start date for a test campaign
+|Schedule the test
+
+|Assessment Creator
+|Resend the invitation to a candidate
+|Make sure the candidate received the invitation
+
+|Candidate
+|Receive a mail with the results of a test
+|Know the results of a test
+
+|Assessment Creator
+|Compare the candidates results
+| 
+
+|Assessment Creator
+|Visualize the candidates results on a graph or a table
+|Get a graphical representation of the results
+
+|Assessment Creator
+|Export the results of a test campaign
+|
+
+|Assessment Creator
+|Order the candidates by their results and tags
+|Organize the candidates
+
+|Assessment Creator
+|Download the raw data of the candidates results
+|Be able to do statistical analysis on the results
+
 
 |===
 
