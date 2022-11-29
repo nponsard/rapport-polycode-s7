@@ -454,7 +454,7 @@ Two ways to get the address of the other services:
 - fetch regularly the list of services and store it to use for requests.
 
 
-SPOF : if the service discovery is down, all services can’t reach eachother, you can still keep the previous adress in cache and update when back up.
+SPOF : if the service discovery is down, all services can’t reach each other, you can still keep the previous address in cache and update when back up.
 
 
 == 4 Traceability and logging
