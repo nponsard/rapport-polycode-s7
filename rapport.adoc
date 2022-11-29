@@ -546,6 +546,13 @@ To negate the effect of malicious code, the user submitted code should not have 
 
 === Virtal machine architecture 
 
+- minimal image ready to run the code of a specific language
+- code mounted as a read only disk in the VM
+- copy into ramfs 
+- build 
+- run
+- send to stdin an get stdout an stderr via serial
+
 TODO
 
 LXC ?
@@ -572,11 +579,13 @@ LXC ?
 === Functionnalities
 
 - Read courses
-- Download courses/videos for offline use
+- Download courses/videos for offline use 
+  - check markdown embeds to download images
 - Answer to MCQ questions
 - browse courses/exercises
 - manage accounte
 - notification on new content in a module ?
+- no advanced team view/ edition
 
 
 === Authentication 
