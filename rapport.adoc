@@ -422,6 +422,11 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 
 == 2 Identification and OIDC
 
+
+The user interacts with the frontend and keycloak (accessible via the ingress)
+
+see deployment : `sketches/Q2-identification/deployment.drawio`
+
 - Redirect from frontend
 - callback to frontend
 - frontend sends token to backend
