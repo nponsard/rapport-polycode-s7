@@ -459,16 +459,11 @@ SPOF : if the service discovery is down, all services can’t reach each other, 
 
 == 4 Traceability and logging
 
-=== Fetch the logs
+=== OpenTelemetry
 
-- log everything to stdout or stderr
-- use (or create) a log aggregator that reads the output from kube or the platform.
+OpenTelemetry has instrumentations that export logs and statistics to a collector. The collector can then export data to be visualized in a dashboard like prometheus/grafana.
 
-
-=== central logging server 
-Let the services upload to a central server.
-
-THIS IS A SPOF, but the project can run without it, you just won’t be able to troobleshoot errors when this service is down.
+We need to add the instrumentation to the services code and deploy a collector, set the instrumentations to export to the collector and then set the dashboard to get data from the collector.
 
 == 5 Search engine
 
