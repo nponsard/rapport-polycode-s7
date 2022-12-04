@@ -581,9 +581,9 @@ LXC ?
 - Read courses
 - Download courses/videos for offline use 
   - check markdown embeds to download images
-- Answer to MCQ questions
+- Answer to MCQ questions, no code challenge
 - browse courses/exercises
-- manage accounte
+- manage account
 - notification on new content in a module ?
 - no advanced team view/ edition
 
