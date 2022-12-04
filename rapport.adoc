@@ -599,5 +599,7 @@ Oauth2 ? open web page with token in url
 
 == 10 UI microservice
 
+web components ? 
+
 Iframe ?
 -> explorer Remix et Next.js 13
