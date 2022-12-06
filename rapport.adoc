@@ -419,6 +419,8 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 |===
 
 
+Architecture : `sketches/Q1-microservice/architecture.drawio`
+
 
 == 2 Identification and OIDC
 
