@@ -489,12 +489,17 @@ image::sketches/Q2-identification/vanilla-register.png[]
 
 `git@github.com:nponsard/polycode-backend-keycloak.git`
 
+Accessible here : https://polycode-key.juno.nponsard.net[https://polycode-key.juno.nponsard.net]
 
 == 3 Microservice communication
 
+Some microservices depends on other microservices to get data, to do so they need a way to communicate with each other. This include having a protocol and a way to access the other services.
+
 === Environment variables
 
-Each service requires environment variables indicating where to find the other services. 
+To point to the other services, we can use environment variables. Each services will require the address of the other services it depends on.
+
+This can easily be set to point to a dns name, a load balancer or a service name in kubernetes, enabling high availability and load balancing.
 
 This can become tedious to setup, these variables could have a default value corresponding to the usual service name in kubernetes.
 
@@ -663,7 +668,8 @@ image::sketches/Q8-mobile/pages.png[]
 
 === Authentication 
 
--> Device Authorization Grant
+-> Device Authorization Grant ?
+-> open web browser and redirect to open the app ?
 
 == 9 Microservice security
 
