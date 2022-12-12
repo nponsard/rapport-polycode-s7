@@ -196,20 +196,20 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 |Know what have been added recently
 
 |User
-|Get the informations about a content
+|Get the information about a content
 |Know the content
 
 |User
-|Get the informations about a module
+|Get the information about a module
 |Know the module, the objectives 
 
 |User
-|Get the informations about a test
+|Get the information about a test
 |Know the test, its objectives
 
 |User
 |Get the components of a content
-|Get the informations the content aims to convey, it’s submittables
+|Get the information the content aims to convey, it’s submittables
 
 |Content Creator
 |Create a content, (markdown, code challenge components)
@@ -425,7 +425,7 @@ Architecture : `sketches/Q1-microservice/architecture.drawio`
 == 2 Identification and OIDC
 
 
-The user interacts with the frontend and keycloak (accessible via the ingress)
+The user interacts with the frontend and Keycloak (accessible via the ingress)
 
 see deployment : `sketches/Q2-identification/deployment.drawio`
 
@@ -436,9 +436,9 @@ see deployment : `sketches/Q2-identification/deployment.drawio`
 
 
 
-- enable keycloak registration
+- enable Keycloak registration
 - find user by email
-- create user if it doesn’t exsist
+- create user if it doesn’t exist
 
 If email is not found, check email verification, if verified create a new user, ask for confirmation of the username, accept the TOS.
 
@@ -485,9 +485,9 @@ When a user starts to type in the search field, the server will respond with sug
 Selecting a suggestion fills the search field and validates the search.
 
 Once the search is validated, use a fuzzy finding algorithm to search through the content 
-TODO : strategy, explain fuzzi finding, find how to in mongo
+TODO : strategy, explain fuzzy finding, find how to in mongo
 
-All types of content (module, content, assignement) will be in a list of results, with the same presentation and the type marked.
+All types of content (module, content, assignment) will be in a list of results, with the same presentation and the type marked.
 
 Ordering with points :
 * 1 point for each matching word in the description
@@ -546,7 +546,7 @@ Validity of the solution can be checked by sending specific inputs to stdin and 
 
 To negate the effect of malicious code, the user submitted code should not have arbitrary file system and memory access, internet access, host system access. The running program should also be limited in CPU and memory usage to prevent denial of service attacks.
 
-=== Virtal machine architecture 
+=== Virtual machine architecture 
 
 - minimal image ready to run the code of a specific language
 - code mounted as a read only disk in the VM
@@ -578,7 +578,7 @@ LXC ?
 
 == 8 Mobile app
 
-=== Functionnalities
+=== Functionalities
 
 - Read courses
 - Download courses/videos for offline use 
