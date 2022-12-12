@@ -22,6 +22,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+
     container: rlespinasse/drawio-desktop-headless
     name: asciidoctor
     steps:
@@ -29,6 +30,10 @@ jobs:
         uses: actions/checkout@v3
       - name: generate images
         run: |
+          adduser drawio
+          chown -R drawio
+          su drawio
+          chmod +x generate-images.sh
           ./generate-images.sh
       - name: Get build container
         id: adocbuild
