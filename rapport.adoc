@@ -511,18 +511,6 @@ With TRPC the api is defined on the server via typescript types and the client u
 
 There is a few drawbacks, the client and the server needs to have access to the typescript type definitions, this can be mitigated by using one repository to store the sources of all the services. The other drawback is that TRPC is made to work only with typescript projects so it would rule out the possibility of using other languages for some services.
 
-=== service discovery
-
-When starting the services register to the a server. This server will be able to provide the address of the other services.
-
-Two ways to get the address of the other services:
-- every time you need to do a request
-- fetch regularly the list of services and store it to use for requests.
-
-
-SPOF : if the service discovery is down, all services can’t reach each other, you can still keep the previous address in cache and update when back up.
-
-
 === POC
 
 `git@github.com:nponsard/poc-microservice-trpc.git`

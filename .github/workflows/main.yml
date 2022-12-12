@@ -32,9 +32,7 @@ jobs:
         run: |
           useradd drawio
           chown -R drawio .
-          su drawio
-          chmod +x generate-images.sh
-          ./generate-images.sh
+          su drawio && chmod +x generate-images.sh && ./generate-images.sh
       - name: Get build container
         id: adocbuild
         uses: tonynv/asciidoctor-action@master
