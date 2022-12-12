@@ -6,21 +6,30 @@ on:
     - main
 jobs:
   adoc_build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     name: asciidoctor
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Get build container
       id: adocbuild
       uses: tonynv/asciidoctor-action@master
       with:
           program: "asciidoctor -D docs --backend=html5 -o index.html rapport.adoc"
-    - name: Print execution time
-      run: echo "Time ${{ steps.adocbuild.outputs.time }}"
-    - name: Deploy docs to ghpages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: setup pages
+      uses: actions/configure-pages@v2
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
       with:
-        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        publish_branch: gh-pages
-        publish_dir: ./
+        # Upload entire repository
+        path: '.'
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v1
+    - name: Publish generated content to GitHub Pages
+      uses: tsunematsu21/actions-publish-gh-pages@v1.0.2
+      with:
+        dir: .
+        branch: gh-pages
+        token: ${{ secrets.ACCESS_TOKEN }}
