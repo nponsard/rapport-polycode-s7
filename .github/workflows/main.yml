@@ -3,7 +3,7 @@ name: build adocs
 on:
   push:
     branches:
-    - main
+      - main
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -22,30 +22,29 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    container: rlespinasse/drawio-desktop-headless
     name: asciidoctor
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    - name: generate images
-      run: |
-        wget --quiet https://github.com/jgraph/drawio-desktop/releases/download/v20.6.2/drawio-amd64-20.6.2.deb
-        apt install -y ./drawio-x86_64-20.6.2.AppImage
-        ./generate-images.sh
-    - name: Get build container
-      id: adocbuild
-      uses: tonynv/asciidoctor-action@master
-      with:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: generate images
+        run: |
+          ./generate-images.sh
+      - name: Get build container
+        id: adocbuild
+        uses: tonynv/asciidoctor-action@master
+        with:
           program: "asciidoctor --backend=html5 -o index.html rapport.adoc"
-    - name: setup pages
-      uses: actions/configure-pages@v2
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
-      with:
-        # Upload entire repository
-        path: '.'
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v1
+      - name: setup pages
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository
+          path: "."
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
     # - name: Publish generated content to GitHub Pages
     #   uses: tsunematsu21/actions-publish-gh-pages@v1.0.2
     #   with:
