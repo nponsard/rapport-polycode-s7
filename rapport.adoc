@@ -663,8 +663,7 @@ image::sketches/Q8-mobile/pages.png[]
 
 === Authentication 
 
-Oauth2 ? open web page with token in url
-
+-> Device Authorization Grant
 
 == 9 Microservice security
 
