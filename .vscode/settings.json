@@ -3,6 +3,8 @@
     "drawio",
     "Keycloak",
     "OIDC",
+    "polycode",
+    "TRPC",
     "tsunematsu"
   ]
 }
