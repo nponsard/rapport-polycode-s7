@@ -529,11 +529,13 @@ image::sketches/Q4-tracing/deployment.png[]
 
 == 5 Search engine
 
-=== Concept
+=== UI
 
 See `./sketches/Q5-search/ui.drawio`.
 
 image::sketches/Q5-search/ui.png[]
+
+=== search suggestion
 
 This concept needs a new collection storing the search history of all users, containing the search query and the number of times it has been searched. The index will be on the query field (to search text).
 
@@ -541,17 +543,23 @@ When a user starts to type in the search field, the server will respond with sug
 
 Selecting a suggestion fills the search field and validates the search.
 
-Once the search is validated, use a fuzzy finding algorithm to search through the content 
-TODO : strategy, explain fuzzy finding, find how to in mongo
+=== Obtaining search results
+
+Once the search is validated, we can use the search function of mongo to get results and order them by relevance using weights.
+
+This technique is easy to add as mongodb is already used to store the contents, modules and assignments.
+
+One problem is that this adds more load to the database, adding nodes to the mongodb cluster could help with performance problems by distributing the load.
 
 All types of content (module, content, assignment) will be in a list of results, with the same presentation and the type marked.
 
-Ordering with points :
-* 1 point for each matching word in the description
-* 2 point for each matching word in the title
-* 3 point for each matching word in the tags
+Ordering with weight :
 
-Results ordered by points, then by date of creation (default, can be changed to date then points).
+* 1 for each matching word in the description
+* 2 for each matching word in the title
+* 3 for each matching word in the tags
+
+Results ordered by points, then by date of creation (a button can be added in the UI to change the ordering to date then points).
 
 
 === Implementation
@@ -560,7 +568,7 @@ We can create an index with this command on the mongo shell :
 
 [source,JavaScript]
 ----
-db.blog.createIndex(
+db.content.createIndex(
    {
      description: "text",
      tags: "text",
@@ -581,7 +589,7 @@ To search for a text we can use this command :
 
 [source,JavaScript]
 ----
-db.stores.find(
+db.content.find(
    { $text: { $search: "rust in 30 days" } },
    { score: { $meta: "textScore" } }
 ).sort( { score: { $meta: "textScore" } } )
