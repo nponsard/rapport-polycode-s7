@@ -443,6 +443,12 @@ see deployment : `sketches/Q2-identification/deployment.drawio`
 If email is not found, check email verification, if verified create a new user, ask for confirmation of the username, accept the TOS.
 
 
+=== POC
+
+`git@github.com:nponsard/polycode-frontend-keycloak.git`
+
+`git@github.com:nponsard/polycode-backend-keycloak.git`
+
 
 == 3 Microservice communication
 
@@ -463,6 +469,10 @@ Two ways to get the address of the other services:
 
 SPOF : if the service discovery is down, all services can’t reach each other, you can still keep the previous address in cache and update when back up.
 
+
+=== POC
+
+`git@github.com:nponsard/poc-microservice-trpc.git`
 
 == 4 Traceability and logging
 
