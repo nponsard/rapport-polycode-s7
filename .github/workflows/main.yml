@@ -32,8 +32,7 @@ jobs:
       uses: actions/checkout@v3
     - name: generate images
       run: |
-        alias drawio=./drawio-x86_64-20.6.2.AppImage
-        ./generate-images.sh
+        DRAWIO=./drawio-x86_64-20.6.2.AppImage ./generate-images.sh
     - name: Get build container
       id: adocbuild
       uses: tonynv/asciidoctor-action@master
