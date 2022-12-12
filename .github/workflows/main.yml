@@ -26,12 +26,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    # - name: generate images
-    #   run: |
-    #     apt install 
-    #     wget --quiet https://github.com/jgraph/drawio-desktop/releases/download/v20.6.2/drawio-x86_64-20.6.2.AppImage
-    #     chmod +x drawio-x86_64-20.6.2.AppImage
-    #     DRAWIO=./drawio-x86_64-20.6.2.AppImage ./generate-images.sh
+    - name: generate images
+      run: |
+        wget --quiet https://github.com/jgraph/drawio-desktop/releases/download/v20.6.2/drawio-amd64-20.6.2.deb
+        apt install -y ./drawio-x86_64-20.6.2.AppImage
+        ./generate-images.sh
     - name: Get build container
       id: adocbuild
       uses: tonynv/asciidoctor-action@master
