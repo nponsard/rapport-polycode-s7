@@ -460,16 +460,27 @@ If email is not found, check email verification, if verified create a new user, 
 === sequence diagrams 
 
 `sketches/Q2-identification/google-login.drawio`
+
 image::sketches/Q2-identification/google-login.png[]
+
 `sketches/Q2-identification/google-register.drawio`
+
 image::sketches/Q2-identification/google-register.png[]
+
 `sketches/Q2-identification/ldap-login.drawio`
+
 image::sketches/Q2-identification/ldap-login.png[]
+
 `sketches/Q2-identification/ldap-register.drawio`
+
 image::sketches/Q2-identification/ldap-register.png[]
+
 `sketches/Q2-identification/vanilla-login.drawio`
+
 image::sketches/Q2-identification/vanilla-login.png[]
+
 `sketches/Q2-identification/vanilla-register.drawio`
+
 image::sketches/Q2-identification/vanilla-register.png[]
 
 === POC
@@ -520,6 +531,7 @@ OpenTelemetry has instrumentations that export logs and statistics to a collecto
 We need to add the instrumentation to the services code and deploy a collector, set the instrumentations to export to the collector and then set the dashboard to get data from the collector.
 
 deployment : `sketches/Q4-tracing/deployment.drawio`
+
 image::sketches/Q4-tracing/deployment.png[]
 
 == 5 Search engine
@@ -527,6 +539,7 @@ image::sketches/Q4-tracing/deployment.png[]
 === Concept
 
 See `./sketches/Q5-search/ui.drawio`.
+
 image::sketches/Q5-search/ui.png[]
 
 This concept needs a new collection storing the search history of all users, containing the search query and the number of times it has been searched. The index will be on the query field (to search text).
@@ -628,6 +641,7 @@ LXC ?
 - mongodb
 
 see `./sketches/Q7-data/current.drawio`
+
 image::sketches/Q7-data/current.png[]
 
 == 8 Mobile app
@@ -644,6 +658,7 @@ image::sketches/Q7-data/current.png[]
 - no advanced team view/ edition
 
 see `./sketches/Q8-mobile/pages.drawio`
+
 image::sketches/Q8-mobile/pages.png[]
 
 === Authentication 
