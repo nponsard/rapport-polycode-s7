@@ -24,8 +24,16 @@ jobs:
     runs-on: ubuntu-latest
     name: asciidoctor
     steps:
+    - name: download drawio
+      run: |
+        wget https://github.com/jgraph/drawio-desktop/releases/download/v20.6.2/drawio-x86_64-20.6.2.AppImage
+        chmod +x drawio-x86_64-20.6.2.AppImage
+        alias drawio=./drawio-x86_64-20.6.2.AppImage
     - name: Checkout code
       uses: actions/checkout@v3
+    - name: generate images
+      run: |
+        ./generate-images.sh
     - name: Get build container
       id: adocbuild
       uses: tonynv/asciidoctor-action@master
