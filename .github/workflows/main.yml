@@ -30,7 +30,7 @@ jobs:
       id: adocbuild
       uses: tonynv/asciidoctor-action@master
       with:
-          program: "asciidoctor -D docs --backend=html5 -o index.html rapport.adoc"
+          program: "asciidoctor --backend=html5 -o index.html rapport.adoc"
     - name: setup pages
       uses: actions/configure-pages@v2
 
