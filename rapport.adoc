@@ -495,6 +495,8 @@ OpenTelemetry has instrumentations that export logs and statistics to a collecto
 
 We need to add the instrumentation to the services code and deploy a collector, set the instrumentations to export to the collector and then set the dashboard to get data from the collector.
 
+deployment : `sketches/Q4-tracing/deployment.drawio`
+
 == 5 Search engine
 
 === Concept
@@ -599,6 +601,8 @@ LXC ?
 - postgresql 
 - mongodb
 
+see `./sketches/Q7-data/current.drawio`
+
 == 8 Mobile app
 
 === Functionalities
@@ -612,6 +616,7 @@ LXC ?
 - notification on new content in a module ?
 - no advanced team view/ edition
 
+see `./sketches/Q8-mobile/pages.drawio`
 
 === Authentication 
 
