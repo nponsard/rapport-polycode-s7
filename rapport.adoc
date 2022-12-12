@@ -556,6 +556,8 @@ Results ordered by points, then by date of creation (default, can be changed to 
 
 === Implementation
 
+We can create an index with this command on the mongo shell :
+
 [source,JavaScript]
 ----
 db.blog.createIndex(
@@ -575,8 +577,7 @@ db.blog.createIndex(
  )
 ----
 
-
-search  :
+To search for a text we can use this command :
 
 [source,JavaScript]
 ----
@@ -585,10 +586,6 @@ db.stores.find(
    { score: { $meta: "textScore" } }
 ).sort( { score: { $meta: "textScore" } } )
 ----
-
-
-
-
 
 
 == 6 Runner architecture
