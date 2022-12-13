@@ -495,25 +495,45 @@ Accessible here : https://polycode-key.juno.nponsard.net[https://polycode-key.ju
 
 Some microservices depends on other microservices to get data, to do so they need a way to communicate with each other. This include having a protocol and a way to access the other services.
 
+=== Proof Of Concept
+
+A proof of concept has been made to illustrate the idea :
+
+`git@github.com:nponsard/poc-microservice-trpc.git`
+
 === Environment variables
 
-To point to the other services, we can use environment variables. Each services will require the address of the other services it depends on.
+To point to the other services, we can use environment variables. Each services will require environment variables to be set to point to the other services it depends on.
 
 This can easily be set to point to a dns name, a load balancer or a service name in kubernetes, enabling high availability and load balancing.
 
-This can become tedious to setup, these variables could have a default value corresponding to the usual service name in kubernetes.
+In the POC the environment variables are set to point to the name of the docker-compose service with the ports also configured.
+
+```
+- ADJECTIVE_SERVICE=http://adjective:3000
+- WORD_SERVICE=http://word:3000
+```
+
+This can become tedious to setup, these variables could have a default value corresponding to the usual service name of the deployment.
 
 === Protocol 
 
-The TRPC protocol can be used, it enables remote procedure call via HTTP so it can even be routed through layer 7 proxies/load balancers.
+TRPC enables remote procedure calls with type checking, and typescript code completion. Calls are made over the HTTP protocol so it can even be routed through layer 7 proxies/load balancers.
 
 With TRPC the api is defined on the server via typescript types and the client uses the same types to get linting and type checking when calling the api. This makes the communication between the services very easy to write and maintain.
 
+The syntax is very easy to use : 
+
+[source,typescript]
+----
+wordService.randomWord.query('verb')
+----
+
+Parameters are passed as parameters to the query function and a promise with the body of the response is returned.
+
 There is a few drawbacks, the client and the server needs to have access to the typescript type definitions, this can be mitigated by using one repository to store the sources of all the services. The other drawback is that TRPC is made to work only with typescript projects so it would rule out the possibility of using other languages for some services.
 
-=== POC
 
-`git@github.com:nponsard/poc-microservice-trpc.git`
 
 == 4 Traceability and logging
 
