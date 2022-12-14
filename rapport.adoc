@@ -698,3 +698,7 @@ Iframe ?
 -> explorer Remix et Next.js 13
 
 https://blog.logrocket.com/micro-frontend-react-next-js/#introduction-micro-frontends
+
+POC : 
+
+`git@gitlab.polytech.umontpellier.fr:nils.ponsard/poc-microfrontend.git``
