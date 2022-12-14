@@ -681,9 +681,13 @@ see `./sketches/Q8-mobile/pages.drawio`
 
 image::sketches/Q8-mobile/pages.png[]
 
-=== Authentication 
+=== Authentication
 
--> Device Authorization Grant ?
+
+https://www.rfc-editor.org/rfc/rfc8252
+
+-> Private-Use URI Scheme Redirection
+
 -> open web browser and redirect to open the app ?
 
 == 9 Microservice security
