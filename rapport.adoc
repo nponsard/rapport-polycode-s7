@@ -698,6 +698,8 @@ Microfrontends can be achieved using web components, a web standard supported by
 
 This allows to split the frontend into multiple components that can be worked on independently. Each component can be developed using different frameworks.
 
+To look seamless, the components need to follow the same design rules, a global style sheet can be used to define all the styles. Another option is to use the same library everywhere, for example material-ui. 
+
 web components ? 
 
 Iframe ?
