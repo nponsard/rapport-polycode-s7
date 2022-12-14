@@ -692,6 +692,12 @@ image::sketches/Q8-mobile/pages.png[]
 
 == 10 UI microservice
 
+When multiple teams are working on the same project, it can be helpful to split the project into individual components that can be worked on independently. In a backend context this is called microservices, in a frontend context this is called microfrontends.
+
+Microfrontends can be achieved using web components, a web standard supported by all modern browsers. Web components are a set of web platform APIs that allow you to create new custom, reusable, encapsulated HTML tags to use in web pages and web apps.
+
+This allows to split the frontend into multiple components that can be worked on independently. Each component can be developed using different frameworks.
+
 web components ? 
 
 Iframe ?
@@ -701,4 +707,4 @@ https://blog.logrocket.com/micro-frontend-react-next-js/#introduction-micro-fron
 
 POC : 
 
-`git@gitlab.polytech.umontpellier.fr:nils.ponsard/poc-microfrontend.git``
+`git@gitlab.polytech.umontpellier.fr:nils.ponsard/poc-microfrontend.git`
