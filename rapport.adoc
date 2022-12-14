@@ -664,6 +664,8 @@ image::sketches/Q7-data/current.png[]
 
 == 8 Mobile app
 
+Most of our target audience has a smartphone, creating a mobile app would allow to extend the functionalities of the platform.
+
 === Functionalities
 
 - Read courses
