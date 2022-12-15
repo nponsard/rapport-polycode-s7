@@ -700,6 +700,8 @@ https://www.rfc-editor.org/rfc/rfc8252
 
 - HTTPS + certificate exchange (kube secrets).
 
+To secure communication between microservices we can set up different certificates for each services, use them to encrypt the communications and make the services check the certificate of the services it’s using.
+
 == 10 UI microservice
 
 When multiple teams are working on the same project, it can be helpful to split the project into individual components that can be worked on independently. In a backend context this is called microservices, in a frontend context this is called microfrontends.
