@@ -501,6 +501,8 @@ A proof of concept has been made to illustrate the idea :
 
 `git@github.com:nponsard/poc-microservice-trpc.git`
 
+Accessible here : https://trpc.juno.nponsard.net/[trpc.juno.nponsard.net]
+
 === Environment variables
 
 To point to the other services, we can use environment variables. Each services will require environment variables to be set to point to the other services it depends on.
