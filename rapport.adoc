@@ -670,14 +670,37 @@ Most of our target audience has a smartphone, creating a mobile app would allow 
 
 === Functionalities
 
-- Read courses
-- Download courses/videos for offline use 
-  - check markdown embeds to download images
-- Answer to MCQ questions, no code challenge
-- browse courses/exercises
+When designing functionalities for a mobile app we need to keep in mind the constraints of the platform, typing on a small screen is not as easy as on a computer, the smaller screen makes it hard to display a lot of information at once, also the user may not always have internet access.
+
+==== Content consumption (courses, practice)
+
+As the main goal of the app is to teach new knowledge, reading courses and practice content should be the core functionality of the app.
+
+The user should be able to browse the content available, practice/course and modules. The user should also be able to see the contents and submodules of a module.
+
+As the user may go offline, downloading content and modules for offline use would be a useful feature. The download button would be shown on the card view of a content or module (see the sketch). For a module, clicking the download button downloads all the contents of the module and recursively downloads the submodules. Downloading a content means getting the content object from the server, containing all the components (markdown, code editor, MCQ) and reading the markdown text to download the embedded resources (images, videos).
+
+The user should be able to manage the downloaded content in a separate page of the application, showing the downloaded content and modules. The user should be able to delete the downloaded content from the app (the download button on the card is replaced by a delete button).
+
+==== Interacting with the content (MCQ, code challenge)
+
+User interaction is difficult to handle on mobile. The screen form factor and the lack of keyboard makes it hard to type code while reading the instructions or the code. This is why we should not support the code challenges on mobile, or at least not for the first iteration of the app, it could be an option in the settings to enable the code challenges anyway if the user is willing to do it.
+
+Answering MCQ questions is easier, the user can select the answer and submit it. If the user is offline, the answer will be saved and sent to the server when the app gets internet access again. When the submitted answer has ben verified by the server, it is displayed in the content. An option to add would be to send a notification when the application receives the verification from the server, so the user can jump back to the content and see the result.
+
+==== Notifications
+
+Notifications are a good way to keep the user engaged with the app. The user should be notified when a new content is available in a module he is following (where he started a content in it). A good option to have would be to opt in to receive notifications when a new content is published and another option to receive a notification when a new module is published.
+
+Notifications would requirer new routes to be added to the api 
+
+TODO : learn about notifications on mobile
+
+==== Account management
 - manage account
-- notification on new content in a module ?
 - no advanced team view/ edition
+
+
 
 see `./sketches/Q8-mobile/pages.drawio`
 
