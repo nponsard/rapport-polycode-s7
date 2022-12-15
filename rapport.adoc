@@ -694,6 +694,10 @@ https://www.rfc-editor.org/rfc/rfc8252
 
 == 9 Microservice security
 
+- need to secure communication between services
+- communication between user and services already secured by HTTPS
+- database access secured by TLS
+
 - HTTPS + certificate exchange (kube secrets).
 
 == 10 UI microservice
