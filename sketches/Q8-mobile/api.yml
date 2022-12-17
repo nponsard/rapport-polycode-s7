@@ -1,0 +1,142 @@
+openapi: "3.0.2"
+info:
+  title: API Title
+  version: "1.0"
+servers:
+  - url: http://localhost:3000
+paths:
+  /notifications/register:
+    post:
+      summary: Register a device for notifications
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newPractice:
+                  type: boolean
+                newModule:
+                  type: boolean
+                modules:
+                  type: array
+                  items:
+                    type: string
+                    description: Module ID
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deviceID:
+                    type: string
+  /notifications/{deviceID}:
+    patch:
+      summary: Update a device's notification settings
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: deviceID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newPractice:
+                  type: boolean
+                  nullable: true
+                newModule:
+                  type: boolean
+                  nullable: true
+                addModules:
+                  type: array
+                  nullable: true
+                  items:
+                    type: string
+                    description: Module ID
+                removeModules:
+                  type: array
+                  nullable: true
+                  items:
+                    type: string
+                    description: Module ID
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deviceID:
+                    type: string
+    get:
+      summary: Get the notifications for a device
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: deviceID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: since
+          in: header
+          required: false
+          schema:
+            type: string
+            description: ID of the last notification received
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - newPractice
+                        - newModule
+                        - moduleUpdate
+                    moduleName:
+                      type: string
+                      nullable: true
+                      description: set if type is newModule or moduleUpdate
+                    practiceName:
+                      type: string
+                      nullable: true
+                      description: set if type is newPractice or moduleUpdate
+                    moduleID:
+                      type: string
+                      nullable: true
+                      description: set if type is newModule or moduleUpdate
+                    practiceID:
+                      type: string
+                      nullable: true
+                      description: set if type is newPractice or moduleUpdate
+                    createdAt:
+                      type: string
+                      format: date-time
+        "204":
+          description: No Content
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
