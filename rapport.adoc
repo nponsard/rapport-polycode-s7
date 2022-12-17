@@ -692,15 +692,17 @@ Answering MCQ questions is easier, the user can select the answer and submit it.
 
 Notifications are a good way to keep the user engaged with the app. The user should be notified when a new content is available in a module he is following (where he started a content in it). A good option to have would be to opt in to receive notifications when a new content is published and another option to receive a notification when a new module is published.
 
-Notifications would requirer new routes to be added to the api 
+To receive notifications, the app would send a request to the api to inform what notifications the user has subscribed to. The api returns a identifier for the phone.
 
-TODO : learn about notifications on mobile
+To get new notifications, the app would send a request to the api with the identifier and the id of the last notification received, the api would return the notifications that have been published since the last notification received. 
 
 ==== Account management
-- manage account
-- no advanced team view/ edition
 
+The user should be able to manage his account from the app : change his password, his emails, his preferred language, his username and bio.
 
+The user should also be able to view the teams he is part of and their points. Team isn’t a core feature of the platform so I think the first version of the app should not support advanced team management. 
+
+I think it should be feasible tho to add team management in a later version, with the ability to create a team, invite users, manage the team members, view the leaderboard in the team and of the teams.
 
 see `./sketches/Q8-mobile/pages.drawio`
 
