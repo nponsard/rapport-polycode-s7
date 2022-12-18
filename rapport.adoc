@@ -644,6 +644,13 @@ The communication between the manager and the agent can be done multiple ways. T
 
 === Runner registration 
 
+
+We could add an api endpoint and an interface element in the administration interface of polycode to generate a runner token. This runner token will be then passed to a runner manager that uses this token to authenticate and register to the runner api. Every minutes the runner manager does a request to the runner api to get code to run. The api returns some user code needed to be run the runner manager then runs the code and sends the result to the runner api.
+
+New runners could be added by users but there is also an option to scale the number of runners automatically by adding more runners when the job queue is too long or in when a high usage of the platform is expected. Scaling down should be as easy as sending a stop signal to the runner manager, the runner manager will finish its current job then stop (instead of fetching new jobs).
+
+If the runner service doesn’t get a return value for a job after a certain amount of time, an error is thrown and the user is notified. The user is then expected to re-send a request to run the code.
+
 - Generate a token from the service managing the runners
 - Launch the runner program on a machine providing the token and the address of the runner manager
 - Periodically the runner will send a request to the runner manager to retrieve new jobs to run
