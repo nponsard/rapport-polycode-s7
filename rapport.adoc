@@ -632,18 +632,15 @@ To negate the effect of malicious code, the user submitted code should not have 
 
 Internet access of machine running the code could be entirely disabled, this may limit the possibilities for some network related exercises, this also means all libraries needed for the exercises should be included in the image. On the other side, blocking internet access would limit a lot the possibilities for a malicious user to exploit the runner system.
 
-=== Virtual machine architecture 
+=== VUsing a virtual machine
 
-- minimal image ready to run the code of a specific language
-- code mounted as a read only disk in the VM
-- copy into ramfs 
-- build 
-- run
-- send to stdin an get stdout an stderr via serial
+Virtual machines are a way to better isolate the running process but requirers more resources as a kernel is created for each program run. Start times may be slower as the kernel need to boot first before executing user code.
 
-TODO
+There would be a runner manager that manages the virtual machine and communicates to a runner agent that is inside the virtual machine and manages the execution of the code.
 
-LXC ?
+Each supported language would have its own initramfs image with the bare minimum to make code work. This makes the image smaller and faster to load in ram. In this image an agent program would be running to communicate with the runner manager to retrieve the code to run, setup the environment, run the code and return its output.
+
+The communication between the manager and the agent can be done multiple ways. The easier would be to have a network interface setup in the VM to communicate using HTTP request, the agent providing a simple HTTP api that the manager can call to control the execution of the code. Another option would be to use a serial interface to communicate, this option consumes less resources but is less convenient. This will likely be the option for the project virt-do/lambdo as the support for a network interface is not yet implemented.
 
 === Runner registration 
 
