@@ -719,6 +719,12 @@ https://www.rfc-editor.org/rfc/rfc8252
 
 == 9 Microservice security
 
+To secure the application we need to secure every part of it.
+
+The first thing we can do and is already done is enable HTTPS between the user and the point of ingress of our cluster, this encrypts the communications and prevents most of the Man in the Middle attacks. 
+
+We also need to apply the principle of least privilege, giving access to the minimum amount of access to the user, to the services, to the developers.
+
 - need to secure communication between services
 - communication between user and services already secured by HTTPS
 - database access secured by TLS
