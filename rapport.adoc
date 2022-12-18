@@ -622,13 +622,15 @@ db.content.find(
 
 === Runner definition
 
-A runner is a service used to run code sent by the user in a sandboxed environment. It feeds data to the stdin of the programs and returns the stdout and stderr.
+A runner is a service used to run code sent by the user in a sandboxed environment. It feeds data to the standard input (stdin) of the programs and returns the standard output (stdout) and standard error output (stderr) of the program to agent for validation.
 
 Validity of the solution can be checked by sending specific inputs to stdin and checking if the output corresponds to the expected output.
 
 === Execution isolation 
 
 To negate the effect of malicious code, the user submitted code should not have arbitrary file system and memory access, internet access, host system access. The running program should also be limited in CPU and memory usage to prevent denial of service attacks.
+
+Internet access of machine running the code could be entirely disabled, this may limit the possibilities for some network related exercises, this also means all libraries needed for the exercises should be included in the image. On the other side, blocking internet access would limit a lot the possibilities for a malicious user to exploit the runner system.
 
 === Virtual machine architecture 
 
