@@ -617,6 +617,11 @@ db.content.find(
 ).sort( { score: { $meta: "textScore" } } )
 ----
 
+The sequence diagrams are simple since we offload all the work to MongoDB.
+
+See `./sketches/Q5-search/search-sequence.drawio`.
+
+image::sketches/Q5-search/search-sequence.png[]
 
 == 6 Runner architecture
 
@@ -632,7 +637,7 @@ To negate the effect of malicious code, the user submitted code should not have 
 
 Internet access of machine running the code could be entirely disabled, this may limit the possibilities for some network related exercises, this also means all libraries needed for the exercises should be included in the image. On the other side, blocking internet access would limit a lot the possibilities for a malicious user to exploit the runner system.
 
-=== VUsing a virtual machine
+=== Using a virtual machine
 
 Virtual machines are a way to better isolate the running process but requirers more resources as a kernel is created for each program run. Start times may be slower as the kernel need to boot first before executing user code.
 
