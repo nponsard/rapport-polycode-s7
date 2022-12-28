@@ -539,11 +539,17 @@ There is a few drawbacks, the client and the server needs to have access to the 
 
 == 4 Traceability and logging
 
+Traceability and logging is a very important part of a microservice architecture. It enables to debug issues, to monitor the health of the services and to get statistics on the usage of the services. Logging to the console isn't enough, we need to be able to aggregate logs, visualize the execution flow of the services.
+
+Also since a request can solicit multiple services, we need a way to know what request produced a log, to be able to trace the execution flow of a request.
+
 === OpenTelemetry
 
 OpenTelemetry has instrumentations that export logs and statistics to a collector. The collector can then export data to be visualized in a dashboard like prometheus/grafana.
 
 We need to add the instrumentation to the services code and deploy a collector, set the instrumentations to export to the collector and then set the dashboard to get data from the collector.
+
+OpenTelemetry has a tracing feature that enables to trace the execution flow of a request across the services. It can be used to visualize the execution flow of a request and to get statistics on the execution time of the services.
 
 deployment : `sketches/Q4-tracing/deployment.drawio`
 
