@@ -493,6 +493,8 @@ Accessible here : https://polycode-key.juno.nponsard.net[https://polycode-key.ju
 
 == 3 Microservice communication
 
+---- Every internet facing services will be behind a proxy/ingress with load balancing and high availability
+
 Some microservices depends on other microservices to get data, to do so they need a way to communicate with each other. This include having a protocol and a way to access the other services.
 
 === Proof Of Concept
@@ -535,7 +537,9 @@ Parameters are passed as parameters to the query function and a promise with the
 
 There is a few drawbacks, the client and the server needs to have access to the typescript type definitions, this can be mitigated by using one repository to store the sources of all the services. The other drawback is that TRPC is made to work only with typescript projects so it would rule out the possibility of using other languages for some services.
 
+=== Example flow
 
+see `sketches/Q3-communication/sequence.drawio`
 
 == 4 Traceability and logging
 
