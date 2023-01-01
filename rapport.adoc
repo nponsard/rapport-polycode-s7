@@ -571,19 +571,24 @@ image::sketches/Q4-tracing/deployment.png[]
 
 == 5 Search engine
 
+As there will be a lot of content on the platform, a way to search for modules, practices will be needed. The user need to easily find the content he is looking for, the search option need to find matches in the title, description, content and tags of the modules and practices.
+
 === UI
 
-See `./sketches/Q5-search/ui.drawio`.
+You will find here sketches for the different pages of the desktop interface concerning the search of content.
+
+The search bar will reside centered in the top bar of the interface, visible on almost every page.
+
+When the user starts to type into the search field suggestions will be shown in a dropdown menu. Clicking on a suggestion will fill the search field and validate the search.
+
+The use input will be validated when the user presses enter or clicks on the search button.
+
+Once the search is validated, the results will be shown in a list, the results will be ordered by relevance. All types will be mixed in the same list, the type will be shown on the card of each result.
+
+
+Source file : `./sketches/Q5-search/ui.drawio`.
 
 image::sketches/Q5-search/ui.png[]
-
-=== search suggestion
-
-This concept needs a new collection storing the search history of all users, containing the search query and the number of times it has been searched. The index will be on the query field (to search text).
-
-When a user starts to type in the search field, the server will respond with suggestion of queries, matched by the beginning of the text, ordered by the number of times researched.
-
-Selecting a suggestion fills the search field and validates the search.
 
 === Obtaining search results
 
@@ -593,18 +598,19 @@ This technique is easy to add as mongodb is already used to store the contents, 
 
 One problem is that this adds more load to the database, adding nodes to the mongodb cluster could help with performance problems by distributing the load.
 
-All types of content (module, content, assignment) will be in a list of results, with the same presentation and the type marked.
+To order the results by relevance we can use the text index of mongodb, it can be used to search for text in multiple fields and give a score to the results. I would weight the matches in the fields like this :
 
-Ordering with weight :
+* 1 for matching in the description
+* 2 for matching in the title
+* 3 for matching in the tags
 
-* 1 for each matching word in the description
-* 2 for each matching word in the title
-* 3 for each matching word in the tags
+With this weighting, the tags will have the most impact on the score, then the title and finally the description. Tags categorizes the most all contents, the title is the most important part of the content and the description is the least important and can talk about other contents, so it should have the least impact on the score.
 
 Results ordered by points, then by date of creation (a button can be added in the UI to change the ordering to date then points).
 
-
 === Implementation
+
+There is no new deployment needed, just a new index on the mongodb database and a new endpoint on the content service.
 
 We can create an index with this command on the mongo shell :
 
@@ -642,6 +648,29 @@ The sequence diagrams are simple since we offload all the work to MongoDB.
 See `./sketches/Q5-search/search-sequence.drawio`.
 
 image::sketches/Q5-search/search-sequence.png[]
+
+Another option would be to use a search engine like elastic search, it would be more flexible but would require to add a new service and add complexity to the storage of the content.
+
+=== search suggestion
+
+Search suggestion is a purely optional feature, it can be added later if there is time. It would be a nice to have feature to improve the user experience.
+
+To do that we could use a collection storing the search history of all users, containing the search query and the number of times it has been searched. The text index will be on the query field. We would use the text search feature of mongodb to match the beginning of the query.
+
+When a user starts to type in the search field, the server will respond with suggestion of queries, matched by the beginning of the text, ordered by the number of times researched.
+
+When a search is validated by the user, the query is added to the search history collection, if it already exists, the number of times it has been searched is incremented. To limit the number of duplicates, the query string would be lowercased and trimmed before searching and being added to the collection.
+
+Schema : 
+
+[source,JavaScript]
+----
+{
+  query: string,
+  count: number
+}
+----
+
 
 == 6 Runner architecture
 
