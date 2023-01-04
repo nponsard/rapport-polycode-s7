@@ -557,9 +557,11 @@ Traceability and logging is a very important part of a microservice architecture
 
 Also since a request can solicit multiple services, we need a way to know what request produced a log, to be able to trace the execution flow of a request.
 
+One way would be to engineer a custom solution, services add a request id to the logs and to the requests they make and report the logs to a central logging service. The central logging service would aggregate the logs and form traces from the request ids. This would be a lot of work to implement and maintain. There are already existing solutions that can do this like OpenTelemetry.
+
 === OpenTelemetry
 
-OpenTelemetry has instrumentations that export logs and statistics to a collector. The collector can then export data to be visualized in a dashboard like prometheus/grafana.
+OpenTelemetry has instrumentations that export logs and statistics to a collector. The collector can then export data to be visualized in a dashboard like prometheus/grafana or jaeger.
 
 We need to add the instrumentation to the services code and deploy a collector, set the instrumentations to export to the collector and then set the dashboard to get data from the collector.
 
@@ -568,6 +570,8 @@ OpenTelemetry has a tracing feature that enables to trace the execution flow of 
 deployment : `sketches/Q4-tracing/deployment.drawio`
 
 image::sketches/Q4-tracing/deployment.png[]
+
+Here you can see every service we programmed has a instrumentation that reports logs and statistics to a collector. The collector is deployed in a kubernetes cluster, here it is set to export to prometheus and jaeger.
 
 == 5 Search engine
 
