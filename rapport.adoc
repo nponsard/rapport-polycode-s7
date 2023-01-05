@@ -768,12 +768,19 @@ The user should also be able to view the teams he is part of and their points. T
 
 I think it should be feasible tho to add team management in a later version, with the ability to create a team, invite users, manage the team members, view the leaderboard in the team and of the teams.
 
+==== UI sketch
+
+This is how I think the layout of the app should be. All the elements should follow the material design guidelines and the design choices of the website.
+
+There is a bottom navigation bar with 4 tabs : home, search, downloads, account. The home tab is the default tab when the app is opened. The search tab is used to search for content and modules. The downloads tab is used to manage the downloaded content. The account tab is used to manage the user account.
+
 see `./sketches/Q8-mobile/pages.drawio`
 
 image::sketches/Q8-mobile/pages.png[]
 
 === Authentication
 
+The user should be able to authenticate with his account on the website. The authentication should be handled by keycloak so the user can use the same account they created on the website.
 
 https://www.rfc-editor.org/rfc/rfc8252
 
@@ -801,6 +808,7 @@ The sensitive configuration options should be stored in a secret or in a secrets
 
 -> istio ?
  - test security
+-> consul ?
 -> vault ?
 
 
