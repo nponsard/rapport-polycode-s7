@@ -822,9 +822,24 @@ This allows to split the frontend into multiple components that can be worked on
 
 To look seamless, the components need to follow the same design rules, a global style sheet can be used to define all the styles. Another option is to use the same library everywhere, for example material-ui. 
 
+=== Webpack module federation
+
+Webpack has a feature called module federation that allows to import other webpack modules from a webpack application. These modules can export React components that can be then used in the application. These modules can be imported from a remote server, this allows to change the code of the module without needing to rebuild the entire application.
+Module federation also allows to share dependencies between the application and the module, this allows to use the same version of a library in the application and in the module and avoid having multiple react instances in the application.
+
+Props can be passed to the component, this allows to pass the configuration of the component from the main application to the component.
+
+`@module-federation/nextjs-mf` is a library that helps to configure webpack module federation for Next.js applications. This enable per default the sharing of react, react-dom and next.
+
+=== Web components
+
 web components ? 
 
-Iframe ?
+=== Iframe
+
+An option would be to use iframes but it is hard to pass props to the iframe and it is hard to share dependencies between the application and the iframe. Also the user won't be logged in the iframe as the authentication is handled by the main application and stored in the local storage, the iframe won't have access to this local storage. We could use postMessage to pass the authentication token to the iframe but this is not a good solution as it opens many security issues.
+
+
 -> explorer Remix et Next.js 13
 
 https://blog.logrocket.com/micro-frontend-react-next-js/#introduction-micro-frontends
