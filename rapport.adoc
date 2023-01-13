@@ -812,8 +812,21 @@ The sensitive configuration options should be stored in a secret or in a secrets
 -> vault ?
 
 
-== 10 UI microservice
+== 10 Integrate microservices in the frontend
 
+With our backend logic split into multiple microservices, the frontend needs to communicate with all of them. With all the services running in a cluster, all the services need to be accessible from one unique public IP address and port. This can be done using multiple techniques.
+
+=== Api gateway
+
+The backend for frontend pattern is a way to centralize the communication with the backend services in a single service. This service is the only one the frontend needs to communicate with, it can then forward the requests to the different services.
+
+=== HTTP Proxy
+
+An HTTP proxy can route requests depending on the headers of the request. We could differentiate which service to redirect to depending on the domain name that has been requested. We can register a wildcard (*) record that points to the cluster so every subdomain is pointing to the cluster. Then we can route using the proxy (for example nginx), this solution can be easy to work with in a production environment as each service will be clearly identifiable by its subdomain. For a development environment this solution causes some issues as it would require to setup a dns server on the local machine to resolve the subdomains or to add custom code to the frontend to use different ports instead of subdomains.
+
+Instead of subdomains we could route the requests using the path present in the request. For example every request to `http://api.polycode.do-2021.fr/content` would be redirected to the content service. This solution is easier to work with in a development environment as it doesn't require to setup a dns server or to write custom frontend code. This could cause problems if two services expect to receive requests on the same path, only one of them would receive the request. This is easy to find and fix as the request would fail directly in a development environment.
+
+The difference of the proxy with the api gateway is that the proxy doesn't have any logic, it just forwards the requests to the services. The api gateway can have some logic, for example it can check the authentication of the user before forwarding the request to the service and build responses with the response of multiple services.
 
 
 == Bonus : Microfrontends
