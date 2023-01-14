@@ -832,6 +832,8 @@ When a request is made to the api gateway, the gateway will check the authentica
 
 Failover can be handled here by returning default data or an error code if one of the requests to the services fails.
 
+Also man in the middle attacks between the api gateway and the internal services could be dangerous as the internal services trust the api gateway. If the attacker manages to spoof the api gateway, the attacker could send requests to the internal services with the authorization of the api gateway.
+
 image::sketches/Q10-microservice-frontend/api-gateway.png[]
 
 === Comparison
@@ -840,10 +842,9 @@ The difference of the proxy with the api gateway is that the proxy doesn't have 
 
 Using a proxy each service would have to have an HTTP api, handle the correct authorization and authentication of the user, handle the errors and return the correct response. 
 
-Using an api gateway each service would only have to handle the logic of the service, the api gateway would handle the authorization and authentication of the user, the errors and the responses. This would require to maintain a service that interacts with all the services so an added functionality in a service would require to update the api gateway.
+Using an api gateway each service would only have to handle the logic of the service, the api gateway would handle the authorization and authentication of the user, the errors and the responses. This would require to maintain a service that interacts with all the services so an added functionality in a service would require to update the api gateway. 
 
 As polycode already has a working monolithic backend that handles the authorization and authentication of the user, we can use thi backend as our api gateway, this allows us to gradually switch to a microservice architecture without having to rewrite the authorization and authentication logic, if a function is still in the monolithic backend the monolithic does all the work, if some of the logic is moved to a microservice the monolithic backend will forward the request to the microservice and return the response.
-
 
 == Bonus : Microfrontends
 
@@ -864,19 +865,8 @@ Props can be passed to the component, this allows to pass the configuration of t
 
 `@module-federation/nextjs-mf` is a library that helps to configure webpack module federation for Next.js applications. This enable per default the sharing of react, react-dom and next.
 
-=== Web components
-
-web components ? 
-
 === Iframe
 
 An option would be to use iframes but it is hard to pass props to the iframe and it is hard to share dependencies between the application and the iframe. Also the user won't be logged in the iframe as the authentication is handled by the main application and stored in the local storage, the iframe won't have access to this local storage. We could use postMessage to pass the authentication token to the iframe but this is not a good solution as it opens many security issues.
-
-
--> explorer Remix et Next.js 13
-
-https://blog.logrocket.com/micro-frontend-react-next-js/#introduction-micro-frontends
-
-POC : 
 
 `git@gitlab.polytech.umontpellier.fr:nils.ponsard/poc-microfrontend.git`
