@@ -11,5 +11,5 @@ files=$(ls -d sketches/*/*.drawio)
 for file in $files
 do
   echo "Processing $file"
-  $DRAWIO -x -f png $file
+  $DRAWIO -x -f png $file &
 done

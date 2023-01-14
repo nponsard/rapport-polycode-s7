@@ -780,13 +780,11 @@ image::sketches/Q8-mobile/pages.png[]
 
 === Authentication
 
-The user should be able to authenticate with his account on the website. The authentication should be handled by keycloak so the user can use the same account they created on the website.
+Assuming a keycloak authentication service is already set up, we can use the oauth2 protocol to authenticate the user so they can use the same account on the web app and the mobile app.
 
-https://www.rfc-editor.org/rfc/rfc8252
+To authenticate to keycloak using oath2, the app would generate a PKCE code verifier and a code challenge before opening a web browser with a request to keycloak. The user would authenticate with his account on keycloak and the web browser would redirect to the app with an authorization code. The app would then send a request to keycloak with this authorization code and the code verifier to get an access token and a refresh token. The access token is used to authenticate the user to the api and the refresh token is used to get a new access token when the current one expires.
 
--> Private-Use URI Scheme Redirection
-
--> open web browser and redirect to open the app ?
+image::sketches/Q8-mobile/auth.png[]
 
 == 9 Microservice security
 
