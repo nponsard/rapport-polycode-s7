@@ -844,6 +844,18 @@ Using an api gateway each service would only have to handle the logic of the ser
 
 As polycode already has a working monolithic backend that handles the authorization and authentication of the user, we can use thi backend as our api gateway, this allows us to gradually switch to a microservice architecture without having to rewrite the authorization and authentication logic, if a function is still in the monolithic backend the monolithic does all the work, if some of the logic is moved to a microservice the monolithic backend will forward the request to the microservice and return the response.
 
+=== Effect on user experience
+
+Proof of concept : `git@gitlab.polytech.umontpellier.fr:nils.ponsard/microservice-ui.git`
+
+In this proof of concept I made a simple assessment service that returns a question and has an endpoint to check the answer. The page interacting with the service is a simple Next.js page that fetches the question from the main backend service, that forwards the request to the assessment service. The user can then choose an answer that is then checked by the assessment service (also forwarded by the main backend).
+
+image::sketches/Q10-microservice-frontend/api-gateway-flow.png[]
+
+The user stays on the domain name, the page is served by the same fronted server and the api requests are still made to one unique front facing service. The only difference is that the requests are forwarded to the microservice. 
+
+The user won't notice any difference except for the latency than can increase a bit but will stay acceptable (adds only a few milliseconds).
+
 == Bonus : Microfrontends
 
 When multiple teams are working on the same project, it can be helpful to split the project into individual components that can be worked on independently. In a backend context this is called microservices, in a frontend context this is called microfrontends.
