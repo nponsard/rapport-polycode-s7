@@ -854,7 +854,7 @@ image::sketches/Q10-microservice-frontend/api-gateway-flow.png[]
 
 The user stays on the domain name, the page is served by the same fronted server and the api requests are still made to one unique front facing service. The only difference is that the requests are forwarded to the microservice. 
 
-The user won't notice any difference except for the latency than can increase a bit but will stay acceptable (adds only a few milliseconds).
+The user won't notice any difference except for the latency than can increase a bit but will stay acceptable (adds only a few milliseconds). The component style stays the same, the authentication is still handled by the main backend so the user doesn't have to log in another time. The user has no way to know that the page is handled by a microservice (same domain, same website).
 
 == Bonus : Microfrontends
 
