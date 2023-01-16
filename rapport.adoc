@@ -794,15 +794,15 @@ The first thing we can do and is already done is enable HTTPS between the user a
 
 We also need to apply the principle of least privilege, giving access to the minimum amount of access to the user, to the services, to the developers.
 
-- need to secure communication between services
-- communication between user and services already secured by HTTPS
-- database access secured by TLS
-
-- HTTPS + certificate exchange (kube secrets).
-
 To secure communication between microservices we can set up different certificates for each services, use them to encrypt the communications and make the services check the certificate of the services it's using.
 
 The sensitive configuration options should be stored in a secret or in a secrets management solution like vault and mounted as environment variables in the pods. These secrets include tokens to access certain services, database credentials, encryption keys for JWT tokens, certificates for service authentication.
+
+Istio offers a solution by encrypting the communication between services and by providing a certificate authority that can be used to sign certificates for the services. Everything is easily configurable using kubernetes deployments.
+
+A sample istio configuration has been deployed at : https://istio-demo.juno.nponsard.net/productpage.
+
+There are multiple reviews services and a details service used by the product page service that is then exposed by a istio ingress gateway. The communication between the services is encrypted using TLS and the ingress gateway is using a certificate signed by a certificate authority that is trusted by the browser.  
 
 == 10 Integrate microservices in the frontend
 
