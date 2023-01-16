@@ -848,6 +848,8 @@ As polycode already has a working monolithic backend that handles the authorizat
 
 Proof of concept : `git@gitlab.polytech.umontpellier.fr:nils.ponsard/microservice-ui.git`
 
+The proof of concept is available at https://polycode-ui.juno.nponsard.net/ (username : `admin@gmail.com`, password : `12345678`), tab assessment.
+
 In this proof of concept I made a simple assessment service that returns a question and has an endpoint to check the answer. The page interacting with the service is a simple Next.js page that fetches the question from the main backend service, that forwards the request to the assessment service. The user can then choose an answer that is then checked by the assessment service (also forwarded by the main backend).
 
 image::sketches/Q10-microservice-frontend/api-gateway-flow.png[]
