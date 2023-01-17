@@ -707,7 +707,7 @@ We could add an api endpoint and an interface element in the administration inte
 
 New runners could be added by users but there is also an option to scale the number of runners automatically by adding more runners when the job queue is too long or in when a high usage of the platform is expected. Scaling down should be as easy as sending a stop signal to the runner manager, the runner manager will finish its current job then stop (instead of fetching new jobs).
 
-If the runner service doesn’t get a return value for a job after a certain amount of time, an error is thrown and the user is notified. The user is then expected to re-send a request to run the code.
+If the runner service doesn't get a return value for a job after a certain amount of time, an error is thrown and the user is notified. The user is then expected to re-send a request to run the code.
 
 - Generate a token from the service managing the runners
 - Launch the runner program on a machine providing the token and the address of the runner manager
@@ -719,14 +719,17 @@ If the runner service doesn’t get a return value for a job after a certain amo
 
 == 7 Data architecture
 
-=== current data 
+=== Current data architecture
 
-- postgresql 
-- mongodb
-
-see `./sketches/Q7-data/current.drawio`
+Currently the data is stored in a postgresql database for the data structures that are relational and with a static structure. The contents of the courses and practice are stored in a mongodb database.
 
 image::sketches/Q7-data/current.png[]
+
+=== New data architecture
+
+With the points talked before the data architecture wouldn't change much. For authentication keycloak uses a postgresql database to store the necessary information, these information could be stored on the same postgresql server as the data application. If performance becomes a concern we could move the keycloak database to a separate server. On the mongodb side, the only addition is the search history collection and the text search index on the contents and modules.
+
+image::sketches/Q7-data/next.png[]
 
 == 8 Mobile app
 
