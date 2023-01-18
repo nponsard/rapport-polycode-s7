@@ -1,9 +1,12 @@
 {
   "cSpell.words": [
     "drawio",
+    "Gammification",
     "iframes",
     "Istio",
     "Keycloak",
+    "lambdo",
+    "leaderboard",
     "microfrontend",
     "microfrontends",
     "nextjs",
@@ -12,7 +15,10 @@
     "PKCE",
     "polycode",
     "Ponsard",
+    "sandboxed",
     "TRPC",
-    "tsunematsu"
+    "tsunematsu",
+    "userinfo",
+    "virt"
   ]
 }

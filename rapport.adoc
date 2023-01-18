@@ -1,6 +1,7 @@
 =  Polycode
 Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
-19-10-2022
+20-01-2023
+:doctype: book
 :reproducible:
 :toc:
 
@@ -22,15 +23,16 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 * Content : Coherent group of components that are organized in a tree structure.
 * Component : Display element or interactive element in a content (example : code challenge, markdown information text).
 * Hint : A piece of information that the user can buy to help him solve a problem (in a code challenge).
-* PolyPoints : Virtual currency used to buy hints, earned by completing all submittables of contents and modules.
+* PolyPoints : Virtual currency used to buy hints, earned by completing all submittable of contents and modules.
 * Runner : Sandboxed environment that runs the code of the candidate.
 * Submittable : Component that exposes a problem to solve. The user can submit a submission to solve the problem.
-* Submission : User’s answer to a submittable, validated through a validator.
+* Submission : User's answer to a submittable, validated through a validator.
 * Team : Group of users, teams are ranked in a leaderboard based of the total score of their members.
 * Validator : Instructions to test the validity of a submission (example : for a specific input expect a specific output).
 * Tag : Keyword that can be associated to a content or a module.
 
 
+<<< 
 === User stories
 
 ==== User management 
@@ -209,7 +211,7 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 
 |User
 |Get the components of a content
-|Get the information the content aims to convey, it’s submittables
+|Get the information the content aims to convey, it's submittable
 
 |Content Creator
 |Create a content, (markdown, code challenge components)
@@ -426,70 +428,90 @@ image::sketches/Q1-microservice/architecture.png[]
 
 == 2 Identification and OIDC
 
+A very critical part of an application is the authentication of the user. Handling the authentication in our backend adds many security concerns to take care of. In addition we will need to rewrite the authentication part to create an authentication service that all the microservices can use. On top of that the addition of new authentication methods will require a lot of work.
 
-The user interacts with the frontend and Keycloak (accessible via the ingress)
+Adding third party authentication services like Google, Facebook, Github, etc. allows the user to use one of their existing account to authenticate, removing the need to remember another password and worry about the security of the password storage in the application server.
 
-see deployment : `sketches/Q2-identification/deployment.drawio`
+OpenID Connect (OIDC) is a protocol that allows a user to authenticate to a third party authentication service and get an access token that can be used to authenticate to a resource server. The resource server can then verify the token and get the user information from the authentication service.
 
-architecture : `sketches/Q2-identification/architecture.drawio`
+Keycloak is an open source OIDC provider that can be used to authenticate users to our application. It itself supports many third party OIDC services like Google, Github, etc. It also supports connecting to an LDAP server to authenticate users.
 
+=== Proof of concept
 
-=== Deployment
-image::sketches/Q2-identification/deployment.png[]
+To illustrate the use of Keycloak I created a proof of concept that replaces the current authentication system with Keycloak. 
 
-=== Architecture
-image::sketches/Q2-identification/architecture.png[]
-
-
-=== ideas
-
-- Redirect from frontend
-- callback to frontend
-- frontend sends token to backend
-- backend checks token with OIDC provider `https://${keycloakHost}:${keycloakPort}/auth/realms/${realmName}/protocol/openid-connect/userinfo`
-
-
-
-- enable Keycloak registration
-- find user by email
-- create user if it doesn’t exist
-
-If email is not found, check email verification, if verified create a new user, ask for confirmation of the username, accept the TOS.
-
-
-=== sequence diagrams 
-
-`sketches/Q2-identification/google-login.drawio`
-
-image::sketches/Q2-identification/google-login.png[]
-
-`sketches/Q2-identification/google-register.drawio`
-
-image::sketches/Q2-identification/google-register.png[]
-
-`sketches/Q2-identification/ldap-login.drawio`
-
-image::sketches/Q2-identification/ldap-login.png[]
-
-`sketches/Q2-identification/ldap-register.drawio`
-
-image::sketches/Q2-identification/ldap-register.png[]
-
-`sketches/Q2-identification/vanilla-login.drawio`
-
-image::sketches/Q2-identification/vanilla-login.png[]
-
-`sketches/Q2-identification/vanilla-register.drawio`
-
-image::sketches/Q2-identification/vanilla-register.png[]
-
-=== POC
+The proof of concept code is available through the following repositories :
 
 `git@github.com:nponsard/polycode-frontend-keycloak.git`
 
 `git@github.com:nponsard/polycode-backend-keycloak.git`
 
-Accessible here : https://polycode-key.juno.nponsard.net[https://polycode-key.juno.nponsard.net]
+A deployment has been made available here : https://polycode-key.juno.nponsard.net[https://polycode-key.juno.nponsard.net]
+
+=== Authenticating users using Keycloak
+
+A client first need to be created in Keycloak. To separate from the main Keycloak configuration, the `polycode` client has been created in a realm named `polycode`. In the realm settings, we need to enable registration, and add the different OIDC and LDAP providers we want to use. As the identifier of an user is a verified email address, the "trusted email" option of the third party providers needs to be enabled.
+
+To authenticate the user user using Keycloak the application needs to implement the OIDC protocol.
+
+First, when the user wants to authenticate, the frontend generates a PKCE code verifier, stores it in the local storage of the browser generates a PKCE code challenge then redirects the user to the Keycloak login page with the PKCE code challenge and a application id. The PKCE is used to verify that the user is redirected back to the application and not to a malicious application. 
+
+The user then creates an account on Keycloak, uses an existing account, uses a third party OIDC service to authenticate or connects on a LDAP service.
+
+After the user has authenticated keycloak redirects the user back to the frontend with a one time code in the url. The redirection url is set in the Keycloak client configuration.
+
+The frontend then uses the code and the corresponding PKCE code verifier to and one time code get an access token from Keycloak. The access token retrieved is then stored in the browser local storage to be used for future requests.
+
+The frontend uses this access token to get basic user information (username on the app, points) to the backend. The backend first checks the validity of the token by calling the Keycloak userinfo endpoint. If the token is invalid, the backend returns an error to the frontend. Otherwise the backend then checks if the email of the user is verified. If the email is not verified, the backend returns an error to the frontend. If the email is verified the backend checks if an user exists with the same email. If no user is found a message is sent to the frontend to ask the user to create an account. If an user is found the backend returns the user information to the frontend.
+
+Every error returned by the backend is explained to the user in the frontend.
+
+If the user is not found by the backend, the frontend prompts the user to choose an username (the field is filled with the username that Keycloak passed in the access token) and accept the terms of service. The frontend sends the username with the token to the backend. The backend then creates a new user with the username and the email of the user. After that the user is authenticated and can use the application.
+
+<<<
+=== Sequence diagrams
+
+Following are the sequence diagrams illustrating the different authentication flows discussed before.
+
+==== Google login
+
+image::sketches/Q2-identification/google-login.png[]
+
+<<<
+==== Google register
+
+image::sketches/Q2-identification/google-register.png[]
+
+<<<
+==== LDAP login
+
+image::sketches/Q2-identification/ldap-login.png[]
+
+<<<
+==== LDAP register
+
+image::sketches/Q2-identification/ldap-register.png[]
+
+<<<
+==== Vanilla login
+
+image::sketches/Q2-identification/vanilla-login.png[]
+
+<<<
+==== Vanilla register
+
+image::sketches/Q2-identification/vanilla-register.png[]
+
+<<<
+=== Deployment
+
+Every service will access the Keycloak server to check the validity of the token and get the user information if needed. The Keycloak server will be deployed in a separate pod and will be accessible to the backend services and to the users via an ingress controller or proxy. The Keycloak server will be deployed in a separate pod in the cluster.
+
+image::sketches/Q2-identification/deployment.png[]
+
+As every service will need to access the Keycloak server for authentication the architecture should look like this :
+
+image::sketches/Q2-identification/architecture.png[]
 
 == 3 Microservice communication
 
@@ -771,7 +793,8 @@ The user should also be able to view the teams he is part of and their points. T
 
 I think it should be feasible tho to add team management in a later version, with the ability to create a team, invite users, manage the team members, view the leaderboard in the team and of the teams.
 
-==== UI sketch
+<<<
+=== UI sketch
 
 This is how I think the layout of the app should be. All the elements should follow the material design guidelines and the design choices of the website.
 
@@ -781,6 +804,7 @@ see `./sketches/Q8-mobile/pages.drawio`
 
 image::sketches/Q8-mobile/pages.png[]
 
+<<<
 === Authentication
 
 Assuming a keycloak authentication service is already set up, we can use the oauth2 protocol to authenticate the user so they can use the same account on the web app and the mobile app.
@@ -877,5 +901,7 @@ Props can be passed to the component, this allows to pass the configuration of t
 === Iframe
 
 An option would be to use iframes but it is hard to pass props to the iframe and it is hard to share dependencies between the application and the iframe. Also the user won't be logged in the iframe as the authentication is handled by the main application and stored in the local storage, the iframe won't have access to this local storage. We could use postMessage to pass the authentication token to the iframe but this is not a good solution as it opens many security issues.
+
+=== Proof of concept
 
 `git@gitlab.polytech.umontpellier.fr:nils.ponsard/poc-microfrontend.git`
