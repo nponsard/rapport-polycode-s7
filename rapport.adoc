@@ -527,9 +527,13 @@ Some microservices depends on other microservices to get data, to do so they nee
 
 A proof of concept has been made to illustrate the idea :
 
-`git@github.com:nponsard/poc-microservice-trpc.git`
-
 Accessible here : https://trpc.juno.nponsard.net/[trpc.juno.nponsard.net]
+
+This proof of concept is an api tha returns three words to generate a random phrase, one adjective, one noun and one verb. The api is composed of three services :
+
+* The adjective service : has a function that returns a random adjective.
+* The word service : has a function that returns a random noun or a random verb depending on the parameter.
+* The 'web' service : on a GET request, calls the adjective service to get a random adjective, then calls the word service twice, once to get a random noun and once to get a random verb. The three words are then returned in a json object.
 
 === Environment variables
 
