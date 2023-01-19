@@ -746,6 +746,7 @@ Currently the data is stored in a postgresql database for the data structures th
 
 image::sketches/Q7-data/current.png[]
 
+<<<
 === New data architecture
 
 With the points talked before the data architecture wouldn't change much. For authentication keycloak uses a postgresql database to store the necessary information, these information could be stored on the same postgresql server as the data application. If performance becomes a concern we could move the keycloak database to a separate server. On the mongodb side, the only addition is the search history collection and the text search index on the contents and modules.
