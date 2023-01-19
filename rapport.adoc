@@ -513,6 +513,10 @@ As every service will need to access the Keycloak server for authentication the 
 
 image::sketches/Q2-identification/architecture.png[]
 
+=== Authorization
+
+The Keycloak server can be used to manage the authorization of the users. We could also delegate the roles management to keycloak. So every service would do a request to Keycloak to check if the user has the right to access the resource. This has not been implemented in the proof of concept as it requires way more modification to move the authorization system. It could be done in the next iteration with enough time and resources.
+
 == 3 Microservice communication
 
 ---- Every internet facing services will be behind a proxy/ingress with load balancing and high availability
@@ -700,6 +704,8 @@ Schema :
 
 == 6 Runner architecture
 
+As one of the main feature of the application is to write code to solve a challenge, we need a way to safely run the code submitted by the user and check the output of the code to validate the solution. For that Polycode uses a runner system.
+
 === Runner definition
 
 A runner is a service used to run code sent by the user in a sandboxed environment. It feeds data to the standard input (stdin) of the programs and returns the standard output (stdout) and standard error output (stderr) of the program to agent for validation.
@@ -789,7 +795,7 @@ To get new notifications, the app would send a request to the api with the ident
 
 The user should be able to manage his account from the app : change his password, his emails, his preferred language, his username and bio.
 
-The user should also be able to view the teams he is part of and their points. Team isn’t a core feature of the platform so I think the first version of the app should not support advanced team management. 
+The user should also be able to view the teams he is part of and their points. Team isn't a core feature of the platform so I think the first version of the app should not support advanced team management. 
 
 I think it should be feasible tho to add team management in a later version, with the ability to create a team, invite users, manage the team members, view the leaderboard in the team and of the teams.
 
