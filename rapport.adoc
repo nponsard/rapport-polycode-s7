@@ -509,6 +509,7 @@ Every service will access the Keycloak server to check the validity of the token
 
 image::sketches/Q2-identification/deployment.png[]
 
+<<<
 As every service will need to access the Keycloak server for authentication the architecture should look like this :
 
 image::sketches/Q2-identification/architecture.png[]
@@ -685,7 +686,7 @@ image::sketches/Q5-search/search-sequence.png[]
 
 Another option would be to use a search engine like elastic search, it would be more flexible but would require to add a new service and add complexity to the storage of the content.
 
-=== search suggestion
+=== Search suggestion
 
 Search suggestion is a purely optional feature, it can be added later if there is time. It would be a nice to have feature to improve the user experience.
 
