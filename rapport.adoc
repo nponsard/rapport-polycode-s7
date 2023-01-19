@@ -730,20 +730,13 @@ The communication between the manager and the agent can be done multiple ways. T
 
 === Runner registration 
 
-
 We could add an api endpoint and an interface element in the administration interface of polycode to generate a runner token. This runner token will be then passed to a runner manager that uses this token to authenticate and register to the runner api. Every minutes the runner manager does a request to the runner api to get code to run. The api returns some user code needed to be run the runner manager then runs the code and sends the result to the runner api.
 
-New runners could be added by users but there is also an option to scale the number of runners automatically by adding more runners when the job queue is too long or in when a high usage of the platform is expected. Scaling down should be as easy as sending a stop signal to the runner manager, the runner manager will finish its current job then stop (instead of fetching new jobs).
+New runners could be added by the server administrator and an option to scale the number of runners automatically by adding more runners when the job queue is too long or in when a high usage of the platform is expected would be useful. To scale down the runner api would return zero code to execute to the runner manager then send a special response to the runner manager to indicate to stop, or if the runners are in a kubernetes cluster the api would schedule the pods for deletion. the runner manager would finish its current job queue then stop.
 
-If the runner service doesn't get a return value for a job after a certain amount of time, an error is thrown and the user is notified. The user is then expected to re-send a request to run the code.
+If the runner service doesn't get a return value for a job after a certain amount of time, around a minute, an error is thrown and the user is notified. The user is then expected to re-send a request to run the code.
 
-- Generate a token from the service managing the runners
-- Launch the runner program on a machine providing the token and the address of the runner manager
-- Periodically the runner will send a request to the runner manager to retrieve new jobs to run
-- The runner manager send some jobs to the runner, the number of jobs depending on the capacity of the runner (CPU, RAM) and the number of runners available to the manager
-- The runner runs the jobs 
-- When a job finishes the runner does a request to the manager to send the result of the job
-
+The runner manager could also send to the runner api the resources available on the machine so the runner api can adjust the number of jobs to schedule to this instance depending on the expected execution time.
 
 == 7 Data architecture
 
