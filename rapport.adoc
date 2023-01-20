@@ -830,7 +830,7 @@ To secure communication between microservices we can set up different certificat
 
 The sensitive configuration options should be stored in a secret or in a secrets management solution like vault and mounted as environment variables in the pods. These secrets include tokens to access certain services, database credentials, encryption keys for JWT tokens, certificates for service authentication.
 
-Istio offers a solution by encrypting the communication between services and by providing a certificate authority that can be used to sign certificates for the services. Everything is easily configurable using kubernetes deployments. It also provides an envoy proxy that can be used to intercept the traffic and apply different policies to it.
+Istio offers a solution by encrypting the communication between services and by providing a certificate authority that can be used to sign certificates for the services. Everything is easily configurable using kubernetes deployments. It also provides an envoy proxy that can be used to intercept the traffic, encrypt traffic and apply different policies to it.
 
 image::sketches/Q9-security/flow.png[]
 
