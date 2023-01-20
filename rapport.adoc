@@ -253,6 +253,30 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 |Get, create, edit, delete a module
 |Content moderation
 
+|Assessment Creator 
+|Create a test
+|Evaluate a candidate
+
+|Assessment Creator
+|Edit the name, description, tags, rewards, inner contents of a test I created
+|Keep my test up to date
+
+|Assessment Creator
+|Delete a test I created
+|Remove my test from the app
+
+|Admin
+|Get, create, edit, delete a test
+|Content moderation
+
+|Assessment Creator
+|Define a time limit for each questions in a test
+|Limit the time a candidate has to answer a question
+
+|Assessment Creator
+|Define the number of points granted for each question in a test
+|Giving weight to each question
+
 |===
 
 ==== Submissions
@@ -299,27 +323,11 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 
 |===
 
-==== Test management
+==== Campaign management
 
 [cols="1,1,1"]
 |===
 |As a |I want to |So that
-
-|Assessment Creator 
-|Create a test
-|Evaluate a candidate
-
-|Assessment Creator
-|Edit the name, description, tags, rewards, inner contents of a test I created
-|Keep my test up to date
-
-|Assessment Creator
-|Delete a test I created
-|Remove my test from the app
-
-|Admin
-|Get, create, edit, delete a test
-|Content moderation
 
 |Assessment Creator
 |Create a test campaign
@@ -360,14 +368,6 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 |Assessment Creator
 |Set a completion deadline for a test campaign
 |Limit the time a candidate has to complete the test
-
-|Assessment Creator
-|Define a time limit for each questions in a test
-|Limit the time a candidate has to answer a question
-
-|Assessment Creator
-|Define the number of points granted for each question in a test
-|Giving weight to each question
 
 |Candidate 
 |Get back to a test I started and continue it if the time limit is not reached
@@ -520,8 +520,6 @@ The Keycloak server can be used to manage the authorization of the users. We cou
 
 == 3 Microservice communication
 
----- Every internet facing services will be behind a proxy/ingress with load balancing and high availability
-
 Some microservices depends on other microservices to get data, to do so they need a way to communicate with each other. This include having a protocol and a way to access the other services.
 
 === Proof Of Concept
@@ -538,9 +536,9 @@ This proof of concept is an api tha returns three words to generate a random phr
 
 === Environment variables
 
-To point to the other services, we can use environment variables. Each services will require environment variables to be set to point to the other services it depends on.
+To point to the other services, we can use environment variables pointing to the service. Each services will require environment variables to be set to point to the other services it depends on.
 
-This can easily be set to point to a dns name, a load balancer or a service name in kubernetes, enabling high availability and load balancing.
+This can easily be set to point to a dns name, a load balancer or a service name in kubernetes (that is also a dns name), enabling high availability and load balancing. An ip address could also be used if no dns solution can be used.
 
 In the POC the environment variables are set to point to the name of the docker-compose service with the ports also configured.
 
@@ -559,9 +557,9 @@ Communicating over the network seems to be the best option, but there are many p
 
 Remote Procedure Call protocols can solve a lot of the issues reported above, it works over the network and HTTP, it has a lot of tools to generate the client and server side of the communication, it has a lot of features like type checking, code completion, error handling...
 
-TRPC is a remote procedure call library for TypeScript, it enables remote procedure calls with type checking, and typescript code completion. Calls are made over the HTTP protocol so it can even be routed through layer 7 proxies/load balancers.
+TRPC is a remote procedure call library for TypeScript, it enables remote procedure calls with type checking, and typescript code completion. Calls are made over the HTTP protocol so it can even be routed through layer 7  HTTP proxies/load balancers.
 
-With TRPC the api is defined on the server via typescript types and the client uses the same types to get linting and type checking when calling the api. This makes the communication between the services very easy to write and maintain.
+With TRPC the api is defined on the server via TypeScript types and the client uses the same types to get linting and type checking when calling the api. This makes the communication between the services very easy to write and maintain.
 
 The syntax is very easy to use : 
 
@@ -572,13 +570,13 @@ wordService.randomWord.query('verb')
 
 Parameters are passed as parameters to the query function and a promise with the body of the response is returned.
 
-There is a few drawbacks, the client and the server needs to have access to the typescript type definitions, this can be mitigated by using one repository to store the sources of all the services. The other drawback is that TRPC is made to work only with typescript projects so it would rule out the possibility of using other languages for some services.
+There is a few drawbacks, the client and the server needs to have access to the TypeScript type definitions, this can be mitigated by using one repository to store the sources of all the services. The other drawback is that TRPC is made to work only with TypeScript projects so it would rule out the possibility of using other languages for some services.
 
-If we want to use other languages, we could use gRPC, it's a remote procedure call protocol that works over HTTP/2 that is based on protocol definition files instead of typescript types.
+If we want to use other languages, we could use gRPC, it's a remote procedure call protocol that works over HTTP/2 that is based on protocol definition files instead of TypeScript types. Trpc can also generate a HTTP api with swagger/openapi documentation to communicate with other languages.
 
 === Example flow
 
-see `sketches/Q3-communication/sequence.drawio`
+Here is an example of a request to create a campaign, the campaign has a test linked to it. On creation the campaign service must do a request to the content service to check if the test exists. The campaign service requests the contents info using TRPC whereas the communication between the frontend and the module service and between the services and Keycloak is done via HTTP. MongoDB uses its own protocol.
 
 image::sketches/Q3-communication/sequence.png[]
 
