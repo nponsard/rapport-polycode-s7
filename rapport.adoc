@@ -6,7 +6,10 @@ Nils Ponsard <nils.ponsard@etu.umontpellier.fr>
 :toc:
 
 
-== 1 Functional quarter
+== 1 Functional quarters 
+
+Polycode is a web application that allows users to learn programming languages and prepare for programming jobs interviews through a gamified learning experience. Learning resources are structured in modules and contents, a content represent resources to learn one specific topic (for example how arrays work in JS), a module is a group of contents and other modules giving the ability to organize the learning experience. Usually contents contains at least a code challenge or QCM to validate that the user understood the topic, completing a challenge or QCM gives the user PolyPoints that can be used to buy hints to solve other challenges or QCM. Code challenges consist of a problem to solve writing code in a specific language, the code is run on the application server to check the validity of the solution. Outside of this main feature the application has also a team feature to allow users to gather and compete with other users and a test campaign feature that allows teachers to create tests and make the students take this test to evaluate their knowledge.
+
 === Vocabulary 
 
 * Admin : A privileged user that has CRUD access to all the data.
