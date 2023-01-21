@@ -12,6 +12,8 @@ Polycode is a web application that allows users to learn programming languages a
 
 === Vocabulary 
 
+Following is the definition of the different terms used in the user stories.
+
 * Admin : A privileged user that has CRUD access to all the data.
 * User : Person that has a PolyCode account.
 * Candidate : Person that participate to a test.
@@ -37,6 +39,8 @@ Polycode is a web application that allows users to learn programming languages a
 
 <<< 
 === User stories
+
+Following are the list of user stories that have been identified. The user stories are grouped by functional quarters.
 
 ==== User management 
 
