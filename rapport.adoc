@@ -427,21 +427,22 @@ Following are the list of user stories that have been identified. The user stori
 
 |===
 
+=== Architecture
 
-Architecture : `sketches/Q1-microservice/architecture.drawio`
+This is how the application architecture would look like.
 
 image::sketches/Q1-microservice/architecture.png[]
 
 
 == 2 Identification and OIDC
 
-A very critical part of an application is the authentication of the user. Handling the authentication in our backend adds many security concerns to take care of. In addition we will need to rewrite the authentication part to create an authentication service that all the microservices can use. On top of that the addition of new authentication methods will require a lot of work.
+A very critical part of an application is the authentication of the user. Handling the authentication in the backend adds many security concerns to take care of. In addition we will need to rewrite the authentication part to create an authentication service that all the microservices can use. On top of that the addition of new authentication methods will require a lot of work.
 
 Adding third party authentication services like Google, Facebook, Github, etc. allows the user to use one of their existing account to authenticate, removing the need to remember another password and worry about the security of the password storage in the application server.
 
 OpenID Connect (OIDC) is a protocol that allows a user to authenticate to a third party authentication service and get an access token that can be used to authenticate to a resource server. The resource server can then verify the token and get the user information from the authentication service.
 
-Keycloak is an open source OIDC provider that can be used to authenticate users to our application. It itself supports many third party OIDC services like Google, Github, etc. It also supports connecting to an LDAP server to authenticate users.
+Keycloak is an open source OIDC provider that can be used to authenticate users to our application. It itself supports many third party OIDC services like Google, Github, etc. It also supports connecting to an LDAP server to authenticate users. It fits our need as it allows us to authenticate users using third party services, using our own LDAP server and also handle the creation of accounts with an email.
 
 === Proof of concept
 
@@ -449,31 +450,37 @@ To illustrate the use of Keycloak I created a proof of concept that replaces the
 
 The proof of concept code is available through the following repositories :
 
-`git@github.com:nponsard/polycode-frontend-keycloak.git`
+Frontend :
 
-`git@github.com:nponsard/polycode-backend-keycloak.git`
+`git@github.com:nponsard/polycode-frontend-Keycloak.git`
+
+Backend :
+
+`git@github.com:nponsard/polycode-backend-Keycloak.git`
+
+An example docker-compose deployment file is available in the backend repository as `deployment.docker-compose.yml`
 
 A deployment has been made available here : https://polycode-key.juno.nponsard.net[https://polycode-key.juno.nponsard.net]
 
 === Authenticating users using Keycloak
 
-A client first need to be created in Keycloak. To separate from the main Keycloak configuration, the `polycode` client has been created in a realm named `polycode`. In the realm settings, we need to enable registration, and add the different OIDC and LDAP providers we want to use. As the identifier of an user is a verified email address, the "trusted email" option of the third party providers needs to be enabled.
+A client first need to be created in Keycloak. To separate polycode from the main Keycloak configuration, the `polycode` client has been created in a realm named `polycode`. In the realm settings, we need to enable registration, and add the different OIDC and LDAP providers we want to use. As the identifier of an user is a verified email address, the "trusted email" option of the third party providers needs to be enabled.
 
-To authenticate the user user using Keycloak the application needs to implement the OIDC protocol.
+To authenticate the user user using Keycloak the application needs to implement the OIDC protocol. Following is a description of the authentication flow that would be used in the next iteration of polycode an is used in the POC.
 
-First, when the user wants to authenticate, the frontend generates a PKCE code verifier, stores it in the local storage of the browser generates a PKCE code challenge then redirects the user to the Keycloak login page with the PKCE code challenge and a application id. The PKCE is used to verify that the user is redirected back to the application and not to a malicious application. 
+First, when the user wants to authenticate, the frontend generates a PKCE code verifier, stores it in the local storage of the browser, generates a PKCE code challenge then redirects the user to the Keycloak login page with the PKCE code challenge and a application id. The PKCE is used to verify that the user is redirected back to the application and not to a malicious application. 
 
-The user then creates an account on Keycloak, uses an existing account, uses a third party OIDC service to authenticate or connects on a LDAP service.
+The user then creates an account on Keycloak, uses an existing account, uses a third party OIDC service to authenticate or connects on a LDAP service, all of this is handled by Keycloak.
 
-After the user has authenticated keycloak redirects the user back to the frontend with a one time code in the url. The redirection url is set in the Keycloak client configuration.
+After the user has authenticated Keycloak redirects the user back to the frontend with a one time code in the url. The redirection url is set in the Keycloak client configuration.
 
-The frontend then uses the code and the corresponding PKCE code verifier to and one time code get an access token from Keycloak. The access token retrieved is then stored in the browser local storage to be used for future requests.
+The frontend then uses the code and the corresponding PKCE code verifier and the received one time code get an access token from Keycloak. The access token retrieved is then stored in the browser local storage to be used for future requests.
 
-The frontend uses this access token to get basic user information (username on the app, points) to the backend. The backend first checks the validity of the token by calling the Keycloak userinfo endpoint. If the token is invalid, the backend returns an error to the frontend. Otherwise the backend then checks if the email of the user is verified. If the email is not verified, the backend returns an error to the frontend. If the email is verified the backend checks if an user exists with the same email. If no user is found a message is sent to the frontend to ask the user to create an account. If an user is found the backend returns the user information to the frontend.
+The frontend then uses this access token to get basic user information (username on the app, points) to the backend. The backend first checks the validity of the token by calling the Keycloak userinfo endpoint. If the token is invalid, the backend returns an error to the frontend. Otherwise the backend then checks if the email of the user is verified. If the email is not verified, the backend returns an error to the frontend. If the email is verified the backend checks if an user exists with the same email. If no user is found a message is sent to the frontend to ask the user to create an account. If an user is found the backend returns the user information to the frontend.
 
 Every error returned by the backend is explained to the user in the frontend.
 
-If the user is not found by the backend, the frontend prompts the user to choose an username (the field is filled with the username that Keycloak passed in the access token) and accept the terms of service. The frontend sends the username with the token to the backend. The backend then creates a new user with the username and the email of the user. After that the user is authenticated and can use the application.
+If the user is not found by the backend, the frontend prompts the user to choose an username (the field is filled with the username that Keycloak passed in the access token) and accept the terms of service. The frontend sends the username with the token to the backend. The backend then creates a new user with the username and the email of the user in the backend database. After that the user is authenticated and can use the application.
 
 <<<
 === Sequence diagrams
@@ -512,7 +519,7 @@ image::sketches/Q2-identification/vanilla-register.png[]
 <<<
 === Deployment
 
-Every service will access the Keycloak server to check the validity of the token and get the user information if needed. The Keycloak server will be deployed in a separate pod and will be accessible to the backend services and to the users via an ingress controller or proxy. The Keycloak server will be deployed in a separate pod in the cluster.
+Every service will access the Keycloak server to check the validity of the token and get the user information if needed. The Keycloak server will be deployed in a separate pod and will be accessible to the backend services and to the users via an ingress controller or proxy. The Keycloak server will be deployed in a pod in the cluster.
 
 image::sketches/Q2-identification/deployment.png[]
 
@@ -523,7 +530,7 @@ image::sketches/Q2-identification/architecture.png[]
 
 === Authorization
 
-The Keycloak server can be used to manage the authorization of the users. We could also delegate the roles management to keycloak. So every service would do a request to Keycloak to check if the user has the right to access the resource. This has not been implemented in the proof of concept as it requires way more modification to move the authorization system. It could be done in the next iteration with enough time and resources.
+The Keycloak server can be used to manage the authorization of the users. We could also delegate the roles management to Keycloak. So every service would do a request to Keycloak to check if the user has the right to access the resource. This has not been implemented in the proof of concept as it requires way more modification to move the authorization system. It could be done in the next iteration with enough time and resources.
 
 == 3 Microservice communication
 
@@ -531,11 +538,13 @@ Some microservices depends on other microservices to get data, to do so they nee
 
 === Proof Of Concept
 
-A proof of concept has been made to illustrate the idea :
+A proof of concept using the tRPC protocol has been made to illustrate the idea :
 
 Accessible here : https://trpc.juno.nponsard.net/[trpc.juno.nponsard.net]
 
-This proof of concept is an api tha returns three words to generate a random phrase, one adjective, one noun and one verb. The api is composed of three services :
+Code : `git@github.com:nponsard/poc-microservice-trpc.git`
+
+This proof of concept is an api that returns three words to generate a random phrase, one adjective, one noun and one verb. The api is composed of three services :
 
 * The adjective service : has a function that returns a random adjective.
 * The word service : has a function that returns a random noun or a random verb depending on the parameter.
@@ -545,9 +554,9 @@ This proof of concept is an api tha returns three words to generate a random phr
 
 To point to the other services, we can use environment variables pointing to the service. Each services will require environment variables to be set to point to the other services it depends on.
 
-This can easily be set to point to a dns name, a load balancer or a service name in kubernetes (that is also a dns name), enabling high availability and load balancing. An ip address could also be used if no dns solution can be used.
+This can easily be set to point to a DNS name, a load balancer or a service name in kubernetes (that is also a DNS name), enabling high availability and load balancing. An ip address could also be used if no DNS solution can be used.
 
-In the POC the environment variables are set to point to the name of the docker-compose service with the ports also configured.
+In the POC the environment variables are set to point to the address of the docker-compose services with the ports specified.
 
 ```
 - ADJECTIVE_SERVICE=http://adjective:3000
@@ -560,50 +569,52 @@ This can become tedious to setup, these variables could have a default value cor
 
 There are many protocols for communication between services, unix sockets and IPC don't match our requirements as the two services would need to be on the same machine but we want to have distributed services that can be deployed on different machines for high availability and load balancing.
 
-Communicating over the network seems to be the best option, but there are many protocols to choose from. We could communicate over TCP or UDP, but we would need to manually do a lot of the work that is already done by HTTP (serialization, deserialization, error handling, binding and listening on a port, identifying route/functions ...). Using HTTP would be a viable option but it would require to implement the server and the client side of the communication, openapi/swagger tools could help to generate those but it's still a lot of code to maintain.
+Communicating over the network seems to be the best option, but there are many protocols to choose from. We could communicate over TCP or UDP, but we would need to manually do a lot of the work that is already done by the HTTP stack (serialization, deserialization, error handling, binding and listening on a port, identifying route/functions ...). Using HTTP would be a viable option but it would require to implement the server and the client side of the communication, openapi/swagger tools could help to generate those but it's still a lot of code to maintain.
 
-Remote Procedure Call protocols can solve a lot of the issues reported above, it works over the network and HTTP, it has a lot of tools to generate the client and server side of the communication, it has a lot of features like type checking, code completion, error handling...
+Remote Procedure Call protocols (RPC) can solve a lot of the issues reported above, it works over the network and HTTP, it has a lot of tools to generate the client and server side of the communication, it has a lot of features like type checking, code completion, error handling...
 
-TRPC is a remote procedure call library for TypeScript, it enables remote procedure calls with type checking, and typescript code completion. Calls are made over the HTTP protocol so it can even be routed through layer 7  HTTP proxies/load balancers.
+tRPC is a remote procedure call library for TypeScript, it enables remote procedure calls with type checking, and TypeScript code completion. Calls are made over the HTTP protocol so it can even be routed through layer 7  HTTP proxies/load balancers.
 
-With TRPC the api is defined on the server via TypeScript types and the client uses the same types to get linting and type checking when calling the api. This makes the communication between the services very easy to write and maintain.
+With tRPC the api is defined on the server via TypeScript types and the client uses the same types to get linting and type checking when calling the api. This makes the communication between the services very easy to write and maintain.
 
 The syntax is very easy to use : 
 
-[source,typescript]
+[source,TypeScript]
 ----
 wordService.randomWord.query('verb')
 ----
 
 Parameters are passed as parameters to the query function and a promise with the body of the response is returned.
 
-There is a few drawbacks, the client and the server needs to have access to the TypeScript type definitions, this can be mitigated by using one repository to store the sources of all the services. The other drawback is that TRPC is made to work only with TypeScript projects so it would rule out the possibility of using other languages for some services.
+There is a few drawbacks, the client and the server needs to have access to the TypeScript type definitions, this can be mitigated by using one repository to store the sources of all the services. The other drawback is that tRPC is made to work only with TypeScript projects so it would rule out the possibility of using other languages for some services.
 
-If we want to use other languages, we could use gRPC, it's a remote procedure call protocol that works over HTTP/2 that is based on protocol definition files instead of TypeScript types. Trpc can also generate a HTTP api with swagger/openapi documentation to communicate with other languages.
+If we want to use other languages, we could use gRPC, it's a remote procedure call protocol that works over HTTP/2 that is based on protocol definition files instead of TypeScript types. tRPC can also generate a HTTP rest api with swagger/openapi documentation to communicate with other languages.
 
+<<<
 === Example flow
 
-Here is an example of a request to create a campaign, the campaign has a test linked to it. On creation the campaign service must do a request to the content service to check if the test exists. The campaign service requests the contents info using TRPC whereas the communication between the frontend and the module service and between the services and Keycloak is done via HTTP. MongoDB uses its own protocol.
+Here is an example flow of a request to create a campaign, the campaign has a test linked to it. On creation the campaign service must do a request to the content service to check if the test exists. The campaign service requests the contents info using tRPC whereas the communication between the frontend and the module service and between the services and Keycloak is done via HTTP. MongoDB uses its own protocol.
 
 image::sketches/Q3-communication/sequence.png[]
 
 == 4 Traceability and logging
 
-Traceability and logging is a very important part of a microservice architecture. It enables to debug issues, to monitor the health of the services and to get statistics on the usage of the services. Logging to the console isn't enough, we need to be able to aggregate logs, visualize the execution flow of the services.
+Traceability and logging is an important part of a microservice architecture. It enables to debug issues, to monitor the health of the services and to get statistics on the usage of the services. Logging to the console isn't enough, we need to be able to aggregate logs, visualize the execution flow of the services.
 
-Also since a request can solicit multiple services, we need a way to know what request produced a log, to be able to trace the execution flow of a request.
+Also since a request can solicit multiple services, we need a way to know which request produced a log, to be able to trace the execution flow of a request.
 
 One way would be to engineer a custom solution, services add a request id to the logs and to the requests they make and report the logs to a central logging service. The central logging service would aggregate the logs and form traces from the request ids. This would be a lot of work to implement and maintain. There are already existing solutions that can do this like OpenTelemetry.
 
 === OpenTelemetry
 
-OpenTelemetry has instrumentations that export logs and statistics to a collector. The collector can then export data to be visualized in a dashboard like prometheus/grafana or jaeger.
+OpenTelemetry is a project that provide instrumentations that export logs and statistics to a collector. The collector can then export data to be visualized in a dashboard like prometheus/grafana or jaeger.
 
-We need to add the instrumentation to the services code and deploy a collector, set the instrumentations to export to the collector and then set the dashboard to get data from the collector.
+We need to add the instrumentation to the services code and deploy a collector, set the instrumentations to export to the collector and then set the dashboard to get data from the collector. The instrumentations are relatively easy to add, they are available for most well-known languages and frameworks, including Nest.js.
 
 OpenTelemetry has a tracing feature that enables to trace the execution flow of a request across the services. It can be used to visualize the execution flow of a request and to get statistics on the execution time of the services.
 
-deployment : `sketches/Q4-tracing/deployment.drawio`
+<<<
+The deployment would look like this :
 
 image::sketches/Q4-tracing/deployment.png[]
 
@@ -625,14 +636,11 @@ The use input will be validated when the user presses enter or clicks on the sea
 
 Once the search is validated, the results will be shown in a list, the results will be ordered by relevance. All types will be mixed in the same list, the type will be shown on the card of each result.
 
-
-Source file : `./sketches/Q5-search/ui.drawio`.
-
 image::sketches/Q5-search/ui.png[]
 
 === Obtaining search results
 
-Once the search is validated, we can use the search function of mongo to get results and order them by relevance using weights.
+Once the search is submitted by the user, we can use the search function of mongo to get results and order them by relevance using weights.
 
 This technique is easy to add as mongodb is already used to store the contents, modules and assignments.
 
@@ -644,7 +652,7 @@ To order the results by relevance we can use the text index of mongodb, it can b
 * 2 for matching in the title
 * 3 for matching in the tags
 
-With this weighting, the tags will have the most impact on the score, then the title and finally the description. Tags categorizes the most all contents, the title is the most important part of the content and the description is the least important and can talk about other contents, so it should have the least impact on the score.
+With this weighting, the tags will have the most impact on the score, then the title and finally the description. Tags are the best to categorize content, the title is the most important part of the content. Finally the description is the least important and can talk about other contents, so it should have the least impact on the score.
 
 Results ordered by points, then by date of creation (a button can be added in the UI to change the ordering to date then points).
 
@@ -683,9 +691,8 @@ db.content.find(
 ).sort( { score: { $meta: "textScore" } } )
 ----
 
+<<<
 The sequence diagrams are simple since we offload all the work to MongoDB.
-
-See `./sketches/Q5-search/search-sequence.drawio`.
 
 image::sketches/Q5-search/search-sequence.png[]
 
@@ -699,7 +706,7 @@ To do that we could use a collection storing the search history of all users, co
 
 When a user starts to type in the search field, the server will respond with suggestion of queries, matched by the beginning of the text, ordered by the number of times researched.
 
-When a search is validated by the user, the query is added to the search history collection, if it already exists, the number of times it has been searched is incremented. To limit the number of duplicates, the query string would be lowercased and trimmed before searching and being added to the collection.
+When a search is validated by the user, the query is added to the search history collection, if it already exists, the number of times it has been searched is incremented. To limit the number of duplicates, the query string would be lowercased and the spaces trimmed before searching and being added to the collection.
 
 Schema : 
 
@@ -716,9 +723,11 @@ Schema :
 
 As one of the main feature of the application is to write code to solve a challenge, we need a way to safely run the code submitted by the user and check the output of the code to validate the solution. For that Polycode uses a runner system.
 
+The execution of user code needs to not be affected by other users code and the platform running the code needs to be protected from malicious code.
+
 === Runner definition
 
-A runner is a service used to run code sent by the user in a sandboxed environment. It feeds data to the standard input (stdin) of the programs and returns the standard output (stdout) and standard error output (stderr) of the program to agent for validation.
+A runner is a service used to run code sent by the user in a sandboxed environment. It feeds data to the standard input (stdin) of the programs and returns the standard output (stdout) and standard error output (stderr) of the program to the runner service for validation.
 
 Validity of the solution can be checked by sending specific inputs to stdin and checking if the output corresponds to the expected output.
 
@@ -726,27 +735,31 @@ Validity of the solution can be checked by sending specific inputs to stdin and 
 
 To negate the effect of malicious code, the user submitted code should not have arbitrary file system and memory access, internet access, host system access. The running program should also be limited in CPU and memory usage to prevent denial of service attacks.
 
-Internet access of machine running the code could be entirely disabled, this may limit the possibilities for some network related exercises, this also means all libraries needed for the exercises should be included in the image. On the other side, blocking internet access would limit a lot the possibilities for a malicious user to exploit the runner system.
+Internet access of machine running the code could be entirely disabled, this may limit the possibilities for some network related exercises, this also means all libraries needed for the exercises should be included in the file system. On the other side, blocking internet access would limit a lot the possibilities for a malicious user to exploit the runner system.
 
-=== Using a virtual machine
+Currently user code is run in containers with images prepared containing the needed dependencies and a start script.
 
-Virtual machines are a way to better isolate the running process but requirers more resources as a kernel is created for each program run. Start times may be slower as the kernel need to boot first before executing user code.
+=== Using a virtual machine\
+
+To better isolate the code execution, a virtual machine solution could be used. This solution involves creating a virtual machine for each code execution, the virtual machine would be created from a template image containing the needed dependencies and an agent program to communicate with the runner manager.
+
+Virtual machines are a way to better isolate the running process but requirers more resources as a kernel is started for each code execution. Start times may be slower as the kernel need to boot first before executing user code.
 
 There would be a runner manager that manages the virtual machine and communicates to a runner agent that is inside the virtual machine and manages the execution of the code.
 
 Each supported language would have its own initramfs image with the bare minimum to make code work. This makes the image smaller and faster to load in ram. In this image an agent program would be running to communicate with the runner manager to retrieve the code to run, setup the environment, run the code and return its output.
 
-The communication between the manager and the agent can be done multiple ways. The easier would be to have a network interface setup in the VM to communicate using HTTP request, the agent providing a simple HTTP api that the manager can call to control the execution of the code. Another option would be to use a serial interface to communicate, this option consumes less resources but is less convenient. This will likely be the option for the project virt-do/lambdo as the support for a network interface is not yet implemented.
+The communication between the manager and the agent can be done multiple ways. The easier would be to have a network interface setup in the VM to communicate using HTTP request, the agent providing a simple HTTP api that the manager can call to control the execution of the code. Another option would be to use a serial interface to communicate, this option consumes less resources but is less convenient. This will likely be the option if we are using the `virt-do/lambdo` project as the support for a network interface is not yet implemented.
 
 === Runner registration 
 
-We could add an api endpoint and an interface element in the administration interface of polycode to generate a runner token. This runner token will be then passed to a runner manager that uses this token to authenticate and register to the runner api. Every minutes the runner manager does a request to the runner api to get code to run. The api returns some user code needed to be run the runner manager then runs the code and sends the result to the runner api.
+We could add an api endpoint in the runner service and an interface element in the administration interface of polycode to generate a runner token. This runner token will be then passed to a runner manager that uses this token to authenticate and register to the runner api. Every minutes the runner manager does a request to the runner service to get code to run. The runner service returns some user code needed to be run the runner manager then runs the code and sends the result to the runner service.
 
-New runners could be added by the server administrator and an option to scale the number of runners automatically by adding more runners when the job queue is too long or in when a high usage of the platform is expected would be useful. To scale down the runner api would return zero code to execute to the runner manager then send a special response to the runner manager to indicate to stop, or if the runners are in a kubernetes cluster the api would schedule the pods for deletion. the runner manager would finish its current job queue then stop.
+New runners could be added by the server administrator and an option to scale the number of runners automatically by adding more runners when the job queue is too long or in when a high usage of the platform is expected would be useful. To scale down the runner service would return no code to execute to the runner manager then send a special order to the runner manager to indicate to stop, or if the runners are in the same kubernetes cluster the runner service would schedule the pods for deletion. the runner manager would finish its current job queue then stop.
 
 If the runner service doesn't get a return value for a job after a certain amount of time, around a minute, an error is thrown and the user is notified. The user is then expected to re-send a request to run the code.
 
-The runner manager could also send to the runner api the resources available on the machine so the runner api can adjust the number of jobs to schedule to this instance depending on the expected execution time.
+The runner manager could also send to the runner service the resources available on the machine so the runner api can adjust the number of jobs to schedule to this instance depending on the expected execution time.
 
 == 7 Data architecture
 
@@ -759,7 +772,7 @@ image::sketches/Q7-data/current.png[]
 <<<
 === New data architecture
 
-With the points talked before the data architecture wouldn't change much. For authentication keycloak uses a postgresql database to store the necessary information, these information could be stored on the same postgresql server as the data application. If performance becomes a concern we could move the keycloak database to a separate server. On the mongodb side, the only addition is the search history collection and the text search index on the contents and modules.
+With the points talked before the data architecture wouldn't change much. For authentication Keycloak uses a postgresql database to store the necessary information, these information could be stored on the same postgresql server as the data application. If performance becomes a concern we could move the Keycloak database to a separate server. On the mongodb side, the only addition is the search history collection and the text search index on the contents and modules.
 
 image::sketches/Q7-data/next.png[]
 
@@ -771,11 +784,11 @@ Most of our target audience has a smartphone, creating a mobile app would allow 
 
 When designing functionalities for a mobile app we need to keep in mind the constraints of the platform, typing on a small screen is not as easy as on a computer, the smaller screen makes it hard to display a lot of information at once, also the user may not always have internet access.
 
-==== Content consumption (courses, practice)
+==== Content consumption
 
 As the main goal of the app is to teach new knowledge, reading courses and practice content should be the core functionality of the app.
 
-The user should be able to browse the content available, practice/course and modules. The user should also be able to see the contents and submodules of a module.
+The user should be able to browse the content available, contents and modules. The user should also be able to see the contents and submodules of a module.
 
 As the user may go offline, downloading content and modules for offline use would be a useful feature. The download button would be shown on the card view of a content or module (see the sketch). For a module, clicking the download button downloads all the contents of the module and recursively downloads the submodules. Downloading a content means getting the content object from the server, containing all the components (markdown, code editor, MCQ) and reading the markdown text to download the embedded resources (images, videos).
 
@@ -814,26 +827,30 @@ see `./sketches/Q8-mobile/pages.drawio`
 
 image::sketches/Q8-mobile/pages.png[]
 
+=== New api definition
+
+A swagger definition of the api endpoints to add is available in the `./sketches/Q8-mobile/api.yml` file in this repository.
+
 <<<
 === Authentication
 
-Assuming a keycloak authentication service is already set up, we can use the oauth2 protocol to authenticate the user so they can use the same account on the web app and the mobile app.
+Assuming a Keycloak authentication service is already set up, we can use the oauth2 protocol to authenticate the user so they can use the same account on the web app and the mobile app.
 
-To authenticate to keycloak using oath2, the app would generate a PKCE code verifier and a code challenge before opening a web browser with a request to keycloak. The user would authenticate with his account on keycloak and the web browser would redirect to the app with an authorization code. The app would then send a request to keycloak with this authorization code and the code verifier to get an access token and a refresh token. The access token is used to authenticate the user to the api and the refresh token is used to get a new access token when the current one expires.
+To authenticate to Keycloak using oath2, the app would generate a PKCE code verifier and a code challenge before opening a web browser with a request to Keycloak. The user would authenticate with his account on Keycloak and the web browser would redirect to the app with an authorization code. The app would then send a request to Keycloak with this authorization code and the code verifier to get an access token and a refresh token. The access token is used to authenticate the user to the api and the refresh token is used to get a new access token when the current one expires.
 
 image::sketches/Q8-mobile/auth.png[]
 
 == 9 Microservice security
 
-To secure the application we need to secure every part of it.
+To have a secure application we need to secure every part of it.
 
-The first thing we can do and is already done is enable HTTPS between the user and the point of ingress of our cluster, this encrypts the communications and prevents most of the Man in the Middle attacks. 
+The first thing we can do and is already done is enable HTTPS between the user and the point of ingress of our cluster, this encrypts the communications and prevents most of the man in the middle attacks. 
 
 We also need to apply the principle of least privilege, giving access to the minimum amount of access to the user, to the services, to the developers.
 
-To secure communication between microservices we can set up different certificates for each services, use them to encrypt the communications and make the services check the certificate of the services it's using.
-
 The sensitive configuration options should be stored in a secret or in a secrets management solution like vault and mounted as environment variables in the pods. These secrets include tokens to access certain services, database credentials, encryption keys for JWT tokens, certificates for service authentication.
+
+To secure communication between microservices we can set up different certificates for each services, use them to encrypt the communications and make the services check the certificate of the services it's using.
 
 Istio offers a solution by encrypting the communication between services and by providing a certificate authority that can be used to sign certificates for the services. Everything is easily configurable using kubernetes deployments. It also provides an envoy proxy that can be used to intercept the traffic, encrypt traffic and apply different policies to it.
 
@@ -849,9 +866,9 @@ With our backend logic split into multiple microservices, the frontend needs to 
 
 === HTTP Proxy
 
-An HTTP proxy can route requests depending on the headers of the request. We could differentiate which service to redirect to depending on the domain name that has been requested. We can register a wildcard (*) record that points to the cluster so every subdomain is pointing to the cluster. Then we can route using the proxy (for example nginx), this solution can be easy to work with in a production environment as each service will be clearly identifiable by its subdomain. For a development environment this solution causes some issues as it would require to setup a dns server on the local machine to resolve the subdomains or to add custom code to the frontend to use different ports instead of subdomains.
+An HTTP proxy can route requests depending on the headers of the request. We could differentiate which service to redirect to depending on the domain name that has been requested. We can register a wildcard (*) record that points to the cluster so every subdomain is pointing to the cluster. Then we can route using the proxy (for example nginx), this solution can be easy to work with in a production environment as each service will be clearly identifiable by its subdomain. For a development environment this solution causes some issues as it would require to setup a DNS server on the local machine to resolve the subdomains or to add custom code to the frontend to use different ports instead of subdomains.
 
-Instead of subdomains we could route the requests using the path present in the request. For example every request to `http://api.polycode.do-2021.fr/content` would be redirected to the content service. This solution is easier to work with in a development environment as it doesn't require to setup a dns server or to write custom frontend code. This could cause problems if two services expect to receive requests on the same path, only one of them would receive the request. This is easy to find and fix as the request would fail directly in a development environment.
+Instead of subdomains we could route the requests using the path present in the request. For example every request to `http://api.polycode.do-2021.fr/content` would be redirected to the content service. This solution is easier to work with in a development environment as it doesn't require to setup a DNS server or to write custom frontend code. This could cause problems if two services expect to receive requests on the same path, only one of them would receive the request. This is easy to find and fix as the request would fail directly in a development environment.
 
 image::sketches/Q10-microservice-frontend/proxy.png[]
 
@@ -915,5 +932,7 @@ Props can be passed to the component, this allows to pass the configuration of t
 An option would be to use iframes but it is hard to pass props to the iframe and it is hard to share dependencies between the application and the iframe. Also the user won't be logged in the iframe as the authentication is handled by the main application and stored in the local storage, the iframe won't have access to this local storage. We could use postMessage to pass the authentication token to the iframe but this is not a good solution as it opens many security issues.
 
 === Proof of concept
+
+Here is a proof of concept showing the configuration needed to use webpack's module federation. It only shows a simple remotely loaded component in the home page of the application. I didn't invest more time as this is not in this project's scope.
 
 `git@gitlab.polytech.umontpellier.fr:nils.ponsard/poc-microfrontend.git`
